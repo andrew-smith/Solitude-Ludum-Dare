@@ -22,7 +22,8 @@ public class LightBeam implements GLRenderable
      */
     public LightBeam(float x, float y)
     {
-
+        this.xPos = x;
+        this.yPos = y;
     }
 
     public void init(GL gl) {
@@ -35,7 +36,7 @@ public class LightBeam implements GLRenderable
     {
         gl.glLineWidth(2);
         gl.glBegin(GL.GL_LINES);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            gl.glColor3f(0.0f, 0.0f, 1.0f);
             gl.glVertex2f(xPos, yPos);
             gl.glVertex2f(xPos, yPos + 100);
         gl.glEnd();

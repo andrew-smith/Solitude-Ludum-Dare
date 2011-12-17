@@ -91,9 +91,12 @@ public class GameLevel extends Node
     {
 
         //load light beams
+        Node lightBeamNode = new Node("LightBeamNode");
+        addChild(lightBeamNode);
 
-        RenderableNode lightNode = new RenderableNode("Light beam", new LightBeam(0, 0));
-        addChild(lightNode);
+        RenderableNode lightNode = new RenderableNode("Light beam", new LightBeam(50, 50));
+        lightBeamNode.addChild(lightNode);
+        lightNode.setScale(2f, 2f, 0.0f);
         
 
         //load images
@@ -135,10 +138,13 @@ public class GameLevel extends Node
 
         player.addChild(playerPic);
 
+        lightBeamNode.setTranslation(-getWidth()/2, -getHeight()/2);
+
         moveToPostion(50,50);
 
         addChild(rn);
 
+        
 
         super.init(gl);
 
