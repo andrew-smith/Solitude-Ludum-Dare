@@ -30,6 +30,9 @@ public class Game implements GLRenderable {
     /** List of remote players node */
     private Node remotePlayerNode;
 
+    /** Sound lib */
+    private AudioManager audioLib;
+
     /**
      * Creates a new game 
      */
@@ -40,6 +43,8 @@ public class Game implements GLRenderable {
         camera.setTranslation(0.0f, -1.0f, -6.0f);
 
         cameraController = CameraController.DEFAULT_CONTROLLER;
+
+        audioLib = new AudioManager();
     }
 
     /**
@@ -50,7 +55,12 @@ public class Game implements GLRenderable {
         return cameraController;
     }
 
+    private static String STEP_SOUND = "sounds/step.wav";
+
     public void init(GL gl) {
+
+        //loads sounds
+        audioLib.loadSound(STEP_SOUND, STEP_SOUND);
 
         //init fog
         gl.glEnable(GL.GL_FOG);
@@ -104,6 +114,7 @@ public class Game implements GLRenderable {
 
     public void update() {
 
+        boolean moved = false;
 
         if (cameraController.poll(KeyEvent.VK_W)) {
             float xrotrad, yrotrad;
@@ -112,6 +123,7 @@ public class Game implements GLRenderable {
             xpos += (Math.sin(yrotrad)) / PI * CAM_MOVEMENT;
             zpos -= (Math.cos(yrotrad)) / PI * CAM_MOVEMENT;
             ypos -= (Math.sin(xrotrad)) / PI * CAM_MOVEMENT;
+            moved = true;
         }
         if (cameraController.poll(KeyEvent.VK_S)) {
             float xrotrad, yrotrad;
@@ -120,24 +132,33 @@ public class Game implements GLRenderable {
             xpos -= (Math.sin(yrotrad)) / PI * CAM_MOVEMENT;
             zpos += (Math.cos(yrotrad) / PI * CAM_MOVEMENT);
             ypos += (Math.sin(xrotrad) / PI * CAM_MOVEMENT);
+            moved = true;
         }
         if (cameraController.poll(KeyEvent.VK_A)) {
             float yrotrad;
             yrotrad = (yrot / 180 * PI);
             xpos -= (Math.cos(yrotrad)) * 0.2;
             zpos -= (Math.sin(yrotrad)) * 0.2;
+            moved = true;
         }
         if (cameraController.poll(KeyEvent.VK_D)) {
             float yrotrad;
             yrotrad = (yrot / 180 * PI);
             xpos += (Math.cos(yrotrad)) * 0.2;
             zpos += (Math.sin(yrotrad)) * 0.2;
+            moved = true;
         }
         if (cameraController.poll(KeyEvent.VK_LEFT)) {
             yrot -= CAM_ROTATION;
         }
         if (cameraController.poll(KeyEvent.VK_RIGHT)) {
             yrot += CAM_ROTATION;
+        }
+
+
+        if(moved)
+        {
+            //audioLib.playSound(STEP_SOUND);
         }
 
 
@@ -156,11 +177,12 @@ public class Game implements GLRenderable {
         
 
         //put things here that the player holds
+        /*
             gl.glRotated(20, 1.0, 0.0, 0.0);
             gl.glRotated(20, 0.0, 1.0, 0.0);
             gl.glRotated(20, 0.0, 0.0, 1.0);
             new GLUT().glutSolidCube(0.1f);
-
+            */
         gl.glPopMatrix();
         
         gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);  //rotate our camera on teh x-axis (left and right)

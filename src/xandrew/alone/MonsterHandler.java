@@ -39,6 +39,9 @@ public class MonsterHandler extends Node
 
 
 
+
+
+
     @Override
     public void update()
     {
@@ -55,12 +58,19 @@ public class MonsterHandler extends Node
     private final Random rand = new Random();
 
 
-    private class Monster extends Node
+    public class Monster extends Node
     {
         public Monster()
         {
             super("Monster");
             this.setTranslation(rand.nextFloat() * 200 - 100, 0, rand.nextFloat() * 200 - 100);
+        }
+
+
+
+        public void activate()
+        {
+
         }
 
 
