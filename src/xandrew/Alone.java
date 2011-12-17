@@ -75,6 +75,13 @@ public class Alone implements GLEventListener {
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
 
+        //
+        gl.glEnable(GL.GL_LIGHTING);
+
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glEnable (GL.GL_BLEND);
+        gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+
         game = new Game();
         game.init(gl);
     }
@@ -91,7 +98,7 @@ public class Alone implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(100.0f, h, 0.5, 20.0);
+        glu.gluPerspective(100.0f, h, 0.5, 25.0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 

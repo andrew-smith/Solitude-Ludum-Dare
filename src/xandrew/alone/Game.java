@@ -1,5 +1,6 @@
 package xandrew.alone;
 
+import com.sun.opengl.util.GLUT;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.nio.ByteBuffer;
@@ -50,12 +51,25 @@ public class Game implements GLRenderable {
     }
 
     public void init(GL gl) {
+
         //init fog
         gl.glEnable(GL.GL_FOG);
         gl.glFogi(GL.GL_FOG_MODE, GL.GL_EXP2);
-        gl.glFogfv(GL.GL_FOG_COLOR, COLOUR_BLACK, 0);
+        gl.glFogfv(GL.GL_FOG_COLOR, COLOUR_FOG, 0);
         gl.glFogf(GL.GL_FOG_DENSITY, 0.1f);
         gl.glHint(GL.GL_FOG_HINT, GL.GL_NICEST);
+
+        //create world sphere
+        final GLUT glut = new GLUT();
+        RenderableNode borderNode = new RenderableNode("WorldBorder", new GLRenderable() {
+            public void init(GL gl) {}
+            public void update() {}
+            public void draw(GL gl) {
+                gl.glTranslatef(xpos, ypos, zpos);
+                glut.glutSolidSphere(15, 20, 20);
+            }
+        });
+        rootNode.addChild(borderNode);
 
         //create floor
         GLSquare squ = new GLSquare();
@@ -64,6 +78,9 @@ public class Game implements GLRenderable {
         floor.setRotation(90, 1.0f, 0.0f, 0.0f);
         floor.setScale(100f); //a pretty large floor
         rootNode.addChild(floor);
+
+        
+
 
         //create node for remote playes
         remotePlayerNode = new Node("Remote Player Node");
@@ -116,8 +133,7 @@ public class Game implements GLRenderable {
         }
         scene.update();
     }
-    private final float[] COLOUR_BLACK = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
-    GLU glu = new GLU();
+    private final float[] COLOUR_FOG = new float[]{0.663f, 0.663f, 0.663f, 1.0f};
 
     public void draw(GL gl) {
 
