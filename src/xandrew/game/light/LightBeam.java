@@ -13,7 +13,9 @@ public class LightBeam implements GLRenderable
 {
 
     /** Point of origin */
-    private float xPos, yPos;
+    public float xPos, yPos;
+
+    public float destX, destY;
 
     /**
      * Creates a light beam from a central point
@@ -24,6 +26,9 @@ public class LightBeam implements GLRenderable
     {
         this.xPos = x;
         this.yPos = y;
+
+        destX = x;
+        destY = y;
     }
 
     public void init(GL gl) {
@@ -38,7 +43,7 @@ public class LightBeam implements GLRenderable
         gl.glBegin(GL.GL_LINES);
             gl.glColor3f(0.0f, 0.0f, 1.0f);
             gl.glVertex2f(xPos, yPos);
-            gl.glVertex2f(xPos, yPos + 100);
+            gl.glVertex2f(destX,destY);
         gl.glEnd();
     }
 }

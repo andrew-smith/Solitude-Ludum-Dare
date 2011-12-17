@@ -226,10 +226,12 @@ public class ShaderNode extends Node
     @Override
     public void draw(GL gl)
     {
+        preDraw(gl);
         turnOnShader(gl);
 
         super.draw(gl);
 
         turnOffShader(gl);
+        postDraw(gl);
     }
 }

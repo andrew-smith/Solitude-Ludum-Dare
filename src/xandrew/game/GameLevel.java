@@ -58,25 +58,29 @@ public class GameLevel extends Node
     }
 
 
+
+    private float rotation = 0;
     /**
      * Interact with the level at the current position
      */
     public void interact()
     {
-        /*
 
-        float pointX = 200;
-        float pointY = 412;
-
-        if(getCurrentPlayerX() > pointX - 20 && getCurrentPlayerX() < pointX + 20)
+        rotation += 1;
+        //reset position
+        lightBeam.destX = lightBeam.xPos;
+        lightBeam.destY = lightBeam.yPos;
+        //set light beam source
+        int length = 1;
+        while( checkPosition(lightBeam.destX, lightBeam.destY))
         {
-            if(getCurrentPlayerY() > pointY - 20 && getCurrentPlayerY() < pointY + 20)
-            {
-            }
+            lightBeam.destX = (float) (lightBeam.xPos + length * Math.cos(Math.toRadians(rotation)));
+            lightBeam.destY = (float) (lightBeam.yPos + length * Math.sin(Math.toRadians(rotation)));
+            length++;
         }
-         */
-    }
 
+
+    }
 
 
     public Node getPlayer()
@@ -84,6 +88,7 @@ public class GameLevel extends Node
         return player;
     }
 
+    LightBeam lightBeam;
   
 
     @Override
@@ -94,7 +99,7 @@ public class GameLevel extends Node
         Node lightBeamNode = new Node("LightBeamNode");
         addChild(lightBeamNode);
 
-        RenderableNode lightNode = new RenderableNode("Light beam", new LightBeam(50, 50));
+        RenderableNode lightNode = new RenderableNode("Light beam",lightBeam = new LightBeam(50, 50));
         lightBeamNode.addChild(lightNode);
         lightNode.setScale(2f, 2f, 0.0f);
         
@@ -170,23 +175,35 @@ public class GameLevel extends Node
      */
     public void moveToPostion(float pX, float pY)
     {
-        //pX = getWidth()/2;
-        //pY += getHeight()/2;
-        System.out.println("px: " + pX + ", py: " + pY);
+        if(checkPosition(pX, pY) )
+        {
+            player.setTranslation((-getWidth()/2) + pX, (-getHeight()/2) + pY);
+        }
+    }
 
-        Color c = new Color(levelData.getRGB((int)pX, (int)pY));
+
+    public boolean checkPosition(float x, float y)
+    {
+        boolean moved = false;
+
+        if(x < 52 && y < 52 && x > 48 && y > 48)
+        {
+            boolean temp = false;
+        }
+
+
+        Color c = new Color(levelData.getRGB((int)x, (int)y));
         int red = c.getRed();
         int green = c.getGreen();
         int blue = c.getBlue();
 
         if( ! (red < 250 && green < 250 && blue < 250) )
         {
-            player.setTranslation((-getWidth()/2) + pX, (-getHeight()/2) + pY);
+            moved = true;
         }
 
-        //check to ensure this isn't black
+        return moved;
     }
-
 
 
     private static final int P_MOVE = 1;
