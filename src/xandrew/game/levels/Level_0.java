@@ -92,6 +92,9 @@ public class Level_0 extends GameLevel
 
     private void checkLightBeams()
     {
+        //source light is always powered
+        sourceLight.isPowered = true;
+
         //save the states of all the lights (if one changes to on then we will play a sound */
         Map<LightBeam, Boolean> lightStates = new HashMap<LightBeam, Boolean>();
 
@@ -101,11 +104,11 @@ public class Level_0 extends GameLevel
 
         //power off all the lightbeams to begin with
         for (LightBeam lb : lightBeams) {
-            lb.isPowered = false;
+            if(lb != sourceLight)
+                lb.isPowered = false;
         }
 
-        //source light is always powered
-        sourceLight.isPowered = true;
+        
 
         //so always project it.
         projectLight(sourceLight);
