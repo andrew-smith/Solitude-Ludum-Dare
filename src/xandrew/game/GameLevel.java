@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
@@ -62,7 +63,15 @@ public abstract class GameLevel extends Node
      */
     public abstract void interact();
 
-    
+
+    private ArrayList<LightBeam> lightBeams = new ArrayList<LightBeam>();
+
+
+    public void addLightBeam(LightBeam lb)
+    {
+        this.lightBeams.add(lb);
+    }
+
    
 
 
@@ -76,8 +85,8 @@ public abstract class GameLevel extends Node
         light.destX = light.xPos;
         light.destY = light.yPos;
         //set light beam source
-        int length = 1;
-        while( checkPosition(light.destX, light.destY))
+        int length = 1; //go past the boundaries
+        while( checkPosition(light.destX, light.destY, light))
         {
             light.destX = (float) (light.xPos + length * Math.cos(Math.toRadians(light.rotation)));
             light.destY = (float) (light.yPos + length * Math.sin(Math.toRadians(light.rotation)));
@@ -100,16 +109,6 @@ public abstract class GameLevel extends Node
     @Override
     public void init(GL gl)
     {
-
-        /*
-        //load light beams
-        Node lightBeamNode = new Node("LightBeamNode");
-        //addChild(lightBeamNode);
-
-        RenderableNode lightNode = new RenderableNode("Light beam",lightBeam = new LightBeam(50, 50));
-        lightBeamNode.addChild(lightNode);
-        lightNode.setScale(2f, 2f, 0.0f);
-        */
 
         //load images
         try
@@ -152,7 +151,7 @@ public abstract class GameLevel extends Node
 
         //lightBeamNode.setTranslation(-getWidth()/2, -getHeight()/2);
 
-        moveToPostion(50,50);
+        //moveToPostion(50,50);
 
         addChild(rn);
 
@@ -182,7 +181,7 @@ public abstract class GameLevel extends Node
      */
     public void moveToPostion(float pX, float pY)
     {
-        if(checkPosition(pX, pY) )
+        if(checkPosition(pX, pY, null) )
         {
             player.setTranslation((-getWidth()/2) + pX, (-getHeight()/2) + pY);
         }
@@ -195,7 +194,7 @@ public abstract class GameLevel extends Node
      * @param y
      * @return true if valid, false if not
      */
-    public boolean checkPosition(float x, float y)
+    public boolean checkPosition(float x, float y, LightBeam ignoreThisLight)
     {
         boolean moved = false;
 
@@ -207,6 +206,21 @@ public abstract class GameLevel extends Node
         if( ! (red < 250 && green < 250 && blue < 250) )
         {
             moved = true;
+        }
+
+        //need to check that there isn't a light source in the way
+        for (LightBeam lb : lightBeams)
+        {
+            if(lb != ignoreThisLight)
+            {
+                if( x > lb.xPos - lb.getScale() && x < lb.xPos + lb.getScale() )
+                {
+                     if( y > lb.yPos - lb.getScale() && y < lb.yPos + lb.getScale() )
+                     {
+                         moved = false;
+                     }
+                }
+            }
         }
 
         return moved;
