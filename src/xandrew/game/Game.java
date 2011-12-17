@@ -7,6 +7,7 @@ import scene.GLRenderable;
 import scene.Node;
 import scene.RenderableNode;
 import scene.Scene;
+import scene.ShaderNode;
 import scene.shapes.GLSquare;
 
 /**
@@ -83,7 +84,20 @@ public class Game implements GLRenderable
         maskNode.addChild(right);
 
 
+        /*
+        maskShader = new ShaderNode("MaskShader");
+        maskShader.loadShaderSource(GL.GL_VERTEX_SHADER, "shaders/mask/v.glsl");
+        maskShader.loadShaderSource(GL.GL_FRAGMENT_SHADER, "shaders/mask/f.glsl");
+        maskShader.init(gl);
+
+        RenderableNode bigNode = new RenderableNode("BigMaskNode", new GLSquare());
+        bigNode.setScale(10000);
+        maskShader.addChild(bigNode);
+        */
+        
     }
+
+    //ShaderNode maskShader;
 
     public void update()
     {
@@ -110,8 +124,20 @@ public class Game implements GLRenderable
 
         gl.glTranslatef(0.0f, 0.0f, 6.0f);
         gl.glTranslatef(player.getNodeGlobalX(), player.getNodeGlobalY(), 0);
-        maskNode.draw(gl);
+        //maskNode.draw(gl);
+        
+        //set blending for mask
+        /*
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
+        System.out.println("playerX: " + player.getNodeGlobalX());
+        System.out.println("playerY: " + player.getNodeGlobalY());
+
+        maskShader.setUniformF(gl, "playerX", player.getNodeGlobalX());
+        maskShader.setUniformF(gl, "playerY", player.getNodeGlobalY());
+        maskShader.draw(gl);
+        */
 
 
 

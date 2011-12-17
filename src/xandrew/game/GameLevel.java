@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
+import javax.swing.JOptionPane;
 import scene.GLRenderable;
 import scene.Node;
 import scene.RenderableNode;
 import scene.shapes.GLSquare;
+import xandrew.game.light.LightBeam;
 
 /**
  *
@@ -56,6 +58,26 @@ public class GameLevel extends Node
     }
 
 
+    /**
+     * Interact with the level at the current position
+     */
+    public void interact()
+    {
+        /*
+
+        float pointX = 200;
+        float pointY = 412;
+
+        if(getCurrentPlayerX() > pointX - 20 && getCurrentPlayerX() < pointX + 20)
+        {
+            if(getCurrentPlayerY() > pointY - 20 && getCurrentPlayerY() < pointY + 20)
+            {
+            }
+        }
+         */
+    }
+
+
 
     public Node getPlayer()
     {
@@ -67,6 +89,13 @@ public class GameLevel extends Node
     @Override
     public void init(GL gl)
     {
+
+        //load light beams
+
+        RenderableNode lightNode = new RenderableNode("Light beam", new LightBeam(0, 0));
+        addChild(lightNode);
+        
+
         //load images
         try
         {
@@ -110,8 +139,6 @@ public class GameLevel extends Node
 
         addChild(rn);
 
-
-        
 
         super.init(gl);
 
@@ -192,6 +219,10 @@ public class GameLevel extends Node
             moveToPostion(getCurrentPlayerX() + P_MOVE, getCurrentPlayerY());
         }
 
+        if(key.poll(KeyEvent.VK_SPACE))
+        {
+            interact();
+        }
 
         super.update();
     }
@@ -215,6 +246,8 @@ public class GameLevel extends Node
 
         //move to the bottom left corner to make things easier
         //gl.glTranslatef((float)getWidth()/2, (float)getHeight()/2, 0);
+
+        
 
         gl.glTranslatef(-player.getTranslation()[0], -player.getTranslation()[1], 0);
 
