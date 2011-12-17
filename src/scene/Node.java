@@ -174,6 +174,22 @@ public class Node
     }
 
 
+
+    public float getNodeGlobalX()
+    {
+        return getNodeGlobalTransform()[12];
+    }
+
+    public float getNodeGlobalY()
+    {
+        return getNodeGlobalTransform()[13];
+    }
+
+    public float getNodeGlobalZ()
+    {
+        return getNodeGlobalTransform()[14];
+    }
+
     /**
      * Sets the rotation of this node
      * @param degrees how many degrees to rotate this node

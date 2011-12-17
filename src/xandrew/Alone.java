@@ -9,7 +9,9 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import scene.GLRenderable;
 import scene.Scene;
+import xandrew.alone.Game;
 
 
 
@@ -53,7 +55,7 @@ public class Alone implements GLEventListener {
 
 
 
-    private Scene scene;
+    private GLRenderable game;
 
 
     public void init(GLAutoDrawable drawable) {
@@ -70,8 +72,8 @@ public class Alone implements GLEventListener {
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
 
-        scene = new Scene();
-        scene.init(gl);
+        game = new Game();
+        game.init(gl);
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -86,7 +88,7 @@ public class Alone implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
+        glu.gluPerspective(100.0f, h, 0.5, 20.0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 
@@ -103,8 +105,8 @@ public class Alone implements GLEventListener {
         gl.glLoadIdentity();
 
 
-        scene.update();
-        scene.draw(gl);
+        game.update();
+        game.draw(gl);
 
         // Flush all drawing operations to the graphics card
         gl.glFlush();
