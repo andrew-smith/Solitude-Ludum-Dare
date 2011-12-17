@@ -56,7 +56,7 @@ public class Game implements GLRenderable {
         gl.glEnable(GL.GL_FOG);
         gl.glFogi(GL.GL_FOG_MODE, GL.GL_EXP2);
         gl.glFogfv(GL.GL_FOG_COLOR, COLOUR_FOG, 0);
-        gl.glFogf(GL.GL_FOG_DENSITY, 0.1f);
+        gl.glFogf(GL.GL_FOG_DENSITY, 0.2f);
         gl.glHint(GL.GL_FOG_HINT, GL.GL_NICEST);
 
         //create world sphere
