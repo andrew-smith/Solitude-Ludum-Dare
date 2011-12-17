@@ -1,5 +1,3 @@
-
-
 package xandrew.alone;
 
 import java.awt.event.KeyEvent;
@@ -7,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import javax.media.opengl.GL;
+import javax.media.opengl.glu.GLU;
 import scene.GLRenderable;
 import scene.Node;
 import scene.RenderableNode;
@@ -17,30 +16,23 @@ import scene.shapes.GLSquare;
  *
  * @author Andrew
  */
-public class Game implements GLRenderable
-{
+public class Game implements GLRenderable {
 
     /** Complete scene */
     private Scene scene;
     /** Root node from scene */
     private final Node rootNode;
-
     /** Camera node */
     private final Node camera;
     /** Camera key listener */
     private final CameraController cameraController;
-
-
-
     /** List of remote players node */
     private Node remotePlayerNode;
-
 
     /**
      * Creates a new game 
      */
-    public Game()
-    {
+    public Game() {
         scene = new Scene();
         rootNode = scene.getRootNode();
         camera = new Node("Camera");
@@ -49,19 +41,15 @@ public class Game implements GLRenderable
         cameraController = CameraController.DEFAULT_CONTROLLER;
     }
 
-
     /**
      * Gets the keylistener to listen to keyboard events
      * @return
      */
-    public KeyListener getKeyListener()
-    {
+    public KeyListener getKeyListener() {
         return cameraController;
     }
 
-
-    public void init(GL gl)
-    {
+    public void init(GL gl) {
         //init fog
         gl.glEnable(GL.GL_FOG);
         gl.glFogi(GL.GL_FOG_MODE, GL.GL_EXP2);
@@ -83,86 +71,70 @@ public class Game implements GLRenderable
 
         scene.init(gl);
     }
-
-
-    private final float CAM_MOVEMENT = 0.1f;
+    //camera vars from: http://www.swiftless.com/tutorials/opengl/camera2.html
+    float xpos = 0, ypos = 1, zpos = 0, xrot = 0, yrot = 0, angle = 0.0f;
     private final float CAM_ROTATION = 1.0f;
+    private final float CAM_MOVEMENT = 0.5f;
+    private final float PI = 3.141592654f;
+
+    public void update() {
 
 
-    public void update()
-    {
-
-        float[] trans = camera.getTranslation();
-        float cam_x = trans[0];
-        float cam_y = trans[1];
-        float cam_z = trans[2];
-
-        float rotation = camera.getRotation()[0];
-
-        if(cameraController.poll(KeyEvent.VK_W))
-        {
-            cam_z += CAM_MOVEMENT;
+        if (cameraController.poll(KeyEvent.VK_W)) {
+            float xrotrad, yrotrad;
+            yrotrad = (yrot / 180 * PI);
+            xrotrad = (xrot / 180 * PI);
+            xpos += (Math.sin(yrotrad)) / PI * CAM_MOVEMENT;
+            zpos -= (Math.cos(yrotrad)) / PI * CAM_MOVEMENT;
+            ypos -= (Math.sin(xrotrad)) / PI * CAM_MOVEMENT;
         }
-        if(cameraController.poll(KeyEvent.VK_S))
-        {
-            cam_z -= CAM_MOVEMENT;
+        if (cameraController.poll(KeyEvent.VK_S)) {
+            float xrotrad, yrotrad;
+            yrotrad = (yrot / 180 * PI);
+            xrotrad = (xrot / 180 * PI);
+            xpos -= (Math.sin(yrotrad)) / PI * CAM_MOVEMENT;
+            zpos += (Math.cos(yrotrad) / PI * CAM_MOVEMENT);
+            ypos += (Math.sin(xrotrad) / PI * CAM_MOVEMENT);
         }
-        if(cameraController.poll(KeyEvent.VK_A))
-        {
-            cam_x += CAM_MOVEMENT;
+        if (cameraController.poll(KeyEvent.VK_A)) {
+            float yrotrad;
+            yrotrad = (yrot / 180 * PI);
+            xpos -= (Math.cos(yrotrad)) * 0.2;
+            zpos -= (Math.sin(yrotrad)) * 0.2;
         }
-        if(cameraController.poll(KeyEvent.VK_D))
-        {
-            cam_x -= CAM_MOVEMENT;
+        if (cameraController.poll(KeyEvent.VK_D)) {
+            float yrotrad;
+            yrotrad = (yrot / 180 * PI);
+            xpos += (Math.cos(yrotrad)) * 0.2;
+            zpos += (Math.sin(yrotrad)) * 0.2;
         }
-        if(cameraController.poll(KeyEvent.VK_LEFT))
-        {
-            rotation -= CAM_ROTATION;
+        if (cameraController.poll(KeyEvent.VK_LEFT)) {
+            yrot -= CAM_ROTATION;
         }
-        if(cameraController.poll(KeyEvent.VK_RIGHT))
-        {
-            rotation += CAM_ROTATION;
+        if (cameraController.poll(KeyEvent.VK_RIGHT)) {
+            yrot += CAM_ROTATION;
         }
-
-        camera.setTranslation(cam_x, cam_y, cam_z);
-        camera.setRotation(rotation, 0.0f, 1.30f, 0.0f);
-
         scene.update();
     }
-
-    
     private final float[] COLOUR_BLACK = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
+    GLU glu = new GLU();
+
+    public void draw(GL gl) {
 
 
-    public void draw(GL gl)
-    {
-
-        
-
-        gl.glTranslatef(-camera.getNodeGlobalX(), -camera.getNodeGlobalY(), -camera.getNodeGlobalZ());
-        gl.glMultMatrixf(camera.getNodeGlobalTransform(), 0);
-        gl.glTranslatef(camera.getNodeGlobalX(), camera.getNodeGlobalY(), camera.getNodeGlobalZ());
+        gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);  //rotate our camera on teh x-axis (left and right)
+        gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);  //rotate our camera on the y-axis (up and down)
+        gl.glTranslated(-xpos, -ypos, -zpos); //translate the screen to the position of our camera
 
         scene.draw(gl);
     }
 
-
-
     /**
      * Inner class for handling server connection
      */
-    private class GameServerListener implements networking.client.ServerListener
-    {
+    private class GameServerListener implements networking.client.ServerListener {
 
-        public void recieveMessage(ByteBuffer message)
-        {
+        public void recieveMessage(ByteBuffer message) {
         }
-
     }
-
-
-
-
-
-    
 }
