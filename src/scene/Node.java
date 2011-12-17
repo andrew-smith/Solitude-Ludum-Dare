@@ -174,6 +174,11 @@ public class Node
     }
 
 
+    public float[] getTranslation()
+    {
+        return translation;
+    }
+
 
     public float getNodeGlobalX()
     {
@@ -381,5 +386,9 @@ public class Node
     public String toString()
     {
         return "Node: " + nodeName + " with (" + childrenNodes.size() + ") children";
+    }
+
+    public float[] getRotation() {
+        return this.rotation;
     }
 }

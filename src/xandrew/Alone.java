@@ -11,6 +11,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import scene.GLRenderable;
 import scene.Scene;
+import xandrew.alone.CameraController;
 import xandrew.alone.Game;
 
 
@@ -23,11 +24,16 @@ import xandrew.alone.Game;
  */
 public class Alone implements GLEventListener {
 
+
+    private static Game game = new Game();
+
+
     public static void main(String[] args) {
         Frame frame = new Frame("Alone - Ludum Dare");
         GLCanvas canvas = new GLCanvas();
 
         canvas.addGLEventListener(new Alone());
+        canvas.addKeyListener(CameraController.DEFAULT_CONTROLLER);
         frame.add(canvas);
         frame.setSize(640, 480);
         final Animator animator = new Animator(canvas);
@@ -53,9 +59,6 @@ public class Alone implements GLEventListener {
         animator.start();
     }
 
-
-
-    private GLRenderable game;
 
 
     public void init(GLAutoDrawable drawable) {
