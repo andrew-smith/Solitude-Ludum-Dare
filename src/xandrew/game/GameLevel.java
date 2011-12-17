@@ -21,7 +21,7 @@ import xandrew.game.light.LightBeam;
  *
  * @author Andrew
  */
-public class GameLevel extends Node
+public abstract class GameLevel extends Node
 {
 
     /**
@@ -57,30 +57,36 @@ public class GameLevel extends Node
 
     }
 
-
-
-    private float rotation = 0;
     /**
      * Interact with the level at the current position
      */
-    public void interact()
-    {
+    public abstract void interact();
 
-        rotation += 1;
+    
+   
+
+
+    /**
+     * Projects a lightbeam to the boundary
+     * @param light the light to project
+     */
+    public void projectLight(LightBeam light)
+    {
         //reset position
-        lightBeam.destX = lightBeam.xPos;
-        lightBeam.destY = lightBeam.yPos;
+        light.destX = light.xPos;
+        light.destY = light.yPos;
         //set light beam source
         int length = 1;
-        while( checkPosition(lightBeam.destX, lightBeam.destY))
+        while( checkPosition(light.destX, light.destY))
         {
-            lightBeam.destX = (float) (lightBeam.xPos + length * Math.cos(Math.toRadians(rotation)));
-            lightBeam.destY = (float) (lightBeam.yPos + length * Math.sin(Math.toRadians(rotation)));
+            light.destX = (float) (light.xPos + length * Math.cos(Math.toRadians(light.rotation)));
+            light.destY = (float) (light.yPos + length * Math.sin(Math.toRadians(light.rotation)));
             length++;
         }
-
-
     }
+
+    
+     
 
 
     public Node getPlayer()
@@ -88,21 +94,22 @@ public class GameLevel extends Node
         return player;
     }
 
-    LightBeam lightBeam;
+    //LightBeam lightBeam;
   
 
     @Override
     public void init(GL gl)
     {
 
+        /*
         //load light beams
         Node lightBeamNode = new Node("LightBeamNode");
-        addChild(lightBeamNode);
+        //addChild(lightBeamNode);
 
         RenderableNode lightNode = new RenderableNode("Light beam",lightBeam = new LightBeam(50, 50));
         lightBeamNode.addChild(lightNode);
         lightNode.setScale(2f, 2f, 0.0f);
-        
+        */
 
         //load images
         try
@@ -143,7 +150,7 @@ public class GameLevel extends Node
 
         player.addChild(playerPic);
 
-        lightBeamNode.setTranslation(-getWidth()/2, -getHeight()/2);
+        //lightBeamNode.setTranslation(-getWidth()/2, -getHeight()/2);
 
         moveToPostion(50,50);
 
@@ -182,15 +189,15 @@ public class GameLevel extends Node
     }
 
 
+    /**
+     * Checks if the position x, y is valid
+     * @param x
+     * @param y
+     * @return true if valid, false if not
+     */
     public boolean checkPosition(float x, float y)
     {
         boolean moved = false;
-
-        if(x < 52 && y < 52 && x > 48 && y > 48)
-        {
-            boolean temp = false;
-        }
-
 
         Color c = new Color(levelData.getRGB((int)x, (int)y));
         int red = c.getRed();
@@ -251,35 +258,21 @@ public class GameLevel extends Node
     }
 
 
+    
+    public abstract void drawLightBeams(GL gl);
+
     @Override
     public void draw(GL gl)
     {
-
-        //gl.glTranslatef(-(getWidth() / 2 / SCALE_DOWN) + (playerX /SCALE_DOWN) , -(getHeight() / 2 / SCALE_DOWN) + (playerY /SCALE_DOWN), 0);
-
-        /*
-        gl.glTranslatef((getWidth() / SCALE_DOWN) - playerX / SCALE_DOWN, (getHeight() / SCALE_DOWN) - playerY / SCALE_DOWN, 0);
-
-        gl.glBegin(GL.GL_POINT);
-            gl.glColor3f(0.0f, 0.0f, 1.0f);//, levelID, playerX)
-            gl.glVertex2f(playerX / SCALE_DOWN, playerY / SCALE_DOWN);
-        gl.glEnd();
-
-         */
-
-        //move to the bottom left corner to make things easier
-        //gl.glTranslatef((float)getWidth()/2, (float)getHeight()/2, 0);
-
-        
-
         gl.glTranslatef(-player.getTranslation()[0], -player.getTranslation()[1], 0);
 
+        //draw light beams
+        gl.glPushMatrix();
+            gl.glScalef(2.0f, 2.0f, 0.0f);
+            gl.glTranslatef(-getWidth()/2, -getHeight()/2, 0.0f);
+            drawLightBeams(gl);
+        gl.glPopMatrix();
+
         super.draw(gl);
-
-
-        
-
-
-        
     }
 }

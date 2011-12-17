@@ -17,6 +17,8 @@ public class LightBeam implements GLRenderable
 
     public float destX, destY;
 
+    public float rotation;
+
     /**
      * Creates a light beam from a central point
      * @param x
@@ -29,6 +31,8 @@ public class LightBeam implements GLRenderable
 
         destX = x;
         destY = y;
+
+        rotation = (float) (Math.random() * 360);
     }
 
     public void init(GL gl) {

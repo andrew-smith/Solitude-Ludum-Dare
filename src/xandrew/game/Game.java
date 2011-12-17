@@ -9,6 +9,7 @@ import scene.RenderableNode;
 import scene.Scene;
 import scene.ShaderNode;
 import scene.shapes.GLSquare;
+import xandrew.game.levels.Level_0;
 
 /**
  *
@@ -38,7 +39,7 @@ public class Game implements GLRenderable
     public void init(GL gl)
     {
 
-        level = new GameLevel(0);
+        level = new Level_0();
         
         rootNode.addChild(level);
 
