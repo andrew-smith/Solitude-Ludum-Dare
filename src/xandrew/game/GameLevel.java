@@ -56,6 +56,14 @@ public class GameLevel extends Node
     }
 
 
+
+    public Node getPlayer()
+    {
+        return player;
+    }
+
+  
+
     @Override
     public void init(GL gl)
     {
@@ -101,6 +109,9 @@ public class GameLevel extends Node
         moveToPostion(50,50);
 
         addChild(rn);
+
+
+        
 
         super.init(gl);
 
