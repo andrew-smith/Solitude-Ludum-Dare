@@ -2,6 +2,8 @@
 
 package xandrew.game.levels;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.media.opengl.GL;
 import xandrew.game.GameLevel;
 import xandrew.game.light.LightBeam;
@@ -90,6 +92,13 @@ public class Level_0 extends GameLevel
 
     private void checkLightBeams()
     {
+        //save the states of all the lights (if one changes to on then we will play a sound */
+        Map<LightBeam, Boolean> lightStates = new HashMap<LightBeam, Boolean>();
+
+        for (LightBeam lb : lightBeams) {
+            lightStates.put(lb, lb.isPowered);
+        }
+
         //power off all the lightbeams to begin with
         for (LightBeam lb : lightBeams) {
             lb.isPowered = false;
@@ -123,7 +132,17 @@ public class Level_0 extends GameLevel
                 }
             }
         }
+
+
+        //check if the state of any changed
+        for (LightBeam lb : lightBeams) {
+            if(lightStates.get(lb) == false && lb.isPowered) //then it has changed
+            {
+                playSound(Sound.LightOn);
+            }
+        }
     }
+
 
 
     @Override

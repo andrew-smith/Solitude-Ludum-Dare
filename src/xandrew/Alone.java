@@ -67,7 +67,7 @@ public class Alone implements GLEventListener {
         // drawable.setGL(new DebugGL(drawable.getGL()));
 
         GL gl = drawable.getGL();
-        System.err.println("INIT GL IS: " + gl.getClass().getName());
+        //System.err.println("INIT GL IS: " + gl.getClass().getName());
 
         // Enable VSync
         gl.setSwapInterval(1);

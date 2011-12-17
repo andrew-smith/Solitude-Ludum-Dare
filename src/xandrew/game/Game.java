@@ -23,12 +23,15 @@ public class Game implements GLRenderable
     /** Root node */
     private final Node rootNode;
 
+    
+
 
     /** Creates a new game */
     public Game()
     {
         this.scene = new Scene();
         this.rootNode = scene.getRootNode();
+
     }
 
 
@@ -95,8 +98,11 @@ public class Game implements GLRenderable
         bigNode.setScale(10000);
         maskShader.addChild(bigNode);
         */
-        
+
     }
+
+
+    
 
     //ShaderNode maskShader;
 
@@ -125,7 +131,7 @@ public class Game implements GLRenderable
 
         gl.glTranslatef(0.0f, 0.0f, 6.0f);
         gl.glTranslatef(player.getNodeGlobalX(), player.getNodeGlobalY(), 0);
-        //maskNode.draw(gl);
+        maskNode.draw(gl);
         
         //set blending for mask
         /*

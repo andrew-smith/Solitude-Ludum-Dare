@@ -159,6 +159,37 @@ public abstract class GameLevel extends Node
 
         super.init(gl);
 
+        //init sound lib
+        //init sound lib
+        for (Sound s : Sound.values()) {
+            soundLib.loadSound("sounds/" + s, s.toString());
+        }
+
+    }
+    
+    /** Audio manager  */
+    private AudioManager soundLib = new AudioManager();
+
+
+    public enum Sound
+    {
+        LightOn("lightActive.wav");
+
+        private Sound(String f)
+        {
+            this.file = f;
+        }
+        public String toString()
+        {
+            return file;
+        }
+        private String file;
+    }
+
+
+    public void playSound(Sound s)
+    {
+        soundLib.playSound(s.toString());
     }
 
 
@@ -227,7 +258,7 @@ public abstract class GameLevel extends Node
     }
 
 
-    private static final int P_MOVE = 1;
+    private static final int P_MOVE = 2;
 
 
     public float getCurrentPlayerX()
