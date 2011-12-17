@@ -80,11 +80,19 @@ public class Game implements GLRenderable {
         rootNode.addChild(floor);
 
         
+        //adds a monster handler to the game
+        rootNode.addChild(new MonsterHandler());
 
 
         //create node for remote playes
         remotePlayerNode = new Node("Remote Player Node");
         rootNode.addChild(remotePlayerNode);
+
+
+
+        //LIGHTING
+        //enable light 0
+        gl.glEnable(GL.GL_LIGHT0);
 
         scene.init(gl);
     }
@@ -131,12 +139,16 @@ public class Game implements GLRenderable {
         if (cameraController.poll(KeyEvent.VK_RIGHT)) {
             yrot += CAM_ROTATION;
         }
+
+
+
+
+
         scene.update();
     }
     private final float[] COLOUR_FOG = new float[]{0.663f, 0.663f, 0.663f, 1.0f};
 
     public void draw(GL gl) {
-
 
         gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);  //rotate our camera on teh x-axis (left and right)
         gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);  //rotate our camera on the y-axis (up and down)
