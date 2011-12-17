@@ -49,7 +49,9 @@ public class Game implements GLRenderable
 
     public void draw(GL gl)
     {
+
         gl.glTranslatef(0.0f, 0.0f, -6.0f);
+        gl.glScalef(0.02f, 0.02f, 0.02f);
         scene.draw(gl);
     }
 

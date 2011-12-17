@@ -11,6 +11,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import scene.GLRenderable;
 import scene.Scene;
+import xandrew.game.CameraController;
 import xandrew.game.Game;
 
 
@@ -33,7 +34,7 @@ public class Alone implements GLEventListener {
         GLCanvas canvas = new GLCanvas();
 
         canvas.addGLEventListener(new Alone());
-        //canvas.addKeyListener(CameraController.DEFAULT_CONTROLLER);
+        canvas.addKeyListener(CameraController.DEFAULT_CONTROLLER);
         frame.add(canvas);
         frame.setSize(640, 480);
         final Animator animator = new Animator(canvas);
@@ -98,7 +99,7 @@ public class Alone implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(100.0f, h, 0.5, 25.0);
+        glu.gluPerspective(100.0f, h, 0.5, 110.0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
 
