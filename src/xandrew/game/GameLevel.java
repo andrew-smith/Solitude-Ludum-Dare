@@ -230,12 +230,12 @@ public abstract class GameLevel extends Node
     private static final int P_MOVE = 1;
 
 
-    private float getCurrentPlayerX()
+    public float getCurrentPlayerX()
     {
         return player.getTranslation()[0] + getWidth()/2;
     }
 
-    private float getCurrentPlayerY()
+    public float getCurrentPlayerY()
     {
         return player.getTranslation()[1] + getHeight()/2;
     }

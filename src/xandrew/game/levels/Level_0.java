@@ -38,6 +38,8 @@ public class Level_0 extends GameLevel
             addLightBeam(lb);
         }
 
+        //first light testing
+        interact();
     }
 
     
@@ -60,6 +62,34 @@ public class Level_0 extends GameLevel
     @Override
     public void interact()
     {
+        checkLightBeams();
+
+        float playerX = getCurrentPlayerX();
+        float playerY = getCurrentPlayerY();
+
+        //check if the player is by any light sources
+        for (LightBeam lb : lightBeams)
+        {
+            //and ensure it is on
+           if(lb.isPowered)
+           {
+               if(playerX > lb.xPos - (lb.getScale() * 2) && playerX <lb.xPos + (lb.getScale() * 2))
+               {
+                   if(playerY > lb.yPos - (lb.getScale() * 2) && playerY < lb.yPos + (lb.getScale() * 2))
+                   {
+                       lb.rotation++;
+                   }
+               }
+           }
+        }
+
+        checkLightBeams();
+    }
+
+
+
+    private void checkLightBeams()
+    {
         //power off all the lightbeams to begin with
         for (LightBeam lb : lightBeams) {
             lb.isPowered = false;
@@ -70,8 +100,7 @@ public class Level_0 extends GameLevel
 
         //so always project it.
         projectLight(sourceLight);
-        sourceLight.rotation ++;
-
+        //sourceLight.rotation ++;
         //find out if any of the other light beams are powered
         for(LightBeam lSource :lightBeams)
         {
@@ -81,7 +110,7 @@ public class Level_0 extends GameLevel
                 final float y = lSource.destY;
                 if(lSource != lDest && lSource.isPowered)
                 {
-                    float destScale = lDest.getScale() + 2;
+                    float destScale = lDest.getScale();
                     //get if source is projecting at dest light
                     if(x > lDest.xPos - destScale && x < lDest.xPos + destScale)
                     {
@@ -95,6 +124,7 @@ public class Level_0 extends GameLevel
             }
         }
     }
+
 
     @Override
     public void drawLightBeams(GL gl) 

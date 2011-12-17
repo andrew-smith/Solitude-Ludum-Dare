@@ -71,7 +71,7 @@ public class LightBeam implements GLRenderable
 
         if(isPowered)
         {
-            gl.glLineWidth(2);
+            gl.glLineWidth(7);
             gl.glBegin(GL.GL_LINES);
                 gl.glColor3f(0.0f, 0.0f, 1.0f);
                 gl.glVertex2f(xPos, yPos);
