@@ -11,6 +11,7 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import scene.GLRenderable;
 import scene.Scene;
+import xandrew.game.Game;
 
 
 
@@ -81,7 +82,7 @@ public class Alone implements GLEventListener {
         gl.glEnable (GL.GL_BLEND);
         gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-        //game = new Game();
+        game = new Game();
         game.init(gl);
     }
 
