@@ -188,6 +188,36 @@ public class ShaderNode extends Node
     }
 
 
+    /**
+     * Gets the uniform location for this shader program
+     * @param gl graphcs to use
+     * @param name the name of the uniform in the shader
+     * @return the location of the uniform in graphics memory
+     */
+    public int getUniformID(GL gl, String name)
+    {
+        return gl.glGetUniformLocation(shaderProgram, name);
+    }
+
+
+    public void setUniformF(GL gl, String name, float value)
+    {
+        int id = getUniformID(gl, name);
+        turnOnShader(gl);
+        gl.glUniform1f(id, value);
+        turnOffShader(gl);
+    }
+
+
+    public void setUniformI(GL gl, String name, int value)
+    {
+        int id = getUniformID(gl, name);
+        turnOnShader(gl);
+        gl.glUniform1i(id, value);
+        turnOffShader(gl);
+    }
+
+
 
     /**
      * Turns the shader on and draws this (and children) nodes
