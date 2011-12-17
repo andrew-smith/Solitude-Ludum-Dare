@@ -11,8 +11,6 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import scene.GLRenderable;
 import scene.Scene;
-import xandrew.alone.CameraController;
-import xandrew.alone.Game;
 
 
 
@@ -25,7 +23,8 @@ import xandrew.alone.Game;
 public class Alone implements GLEventListener {
 
 
-    private static Game game = new Game();
+    //TODO put this in
+    private static GLRenderable game;
 
 
     public static void main(String[] args) {
@@ -33,7 +32,7 @@ public class Alone implements GLEventListener {
         GLCanvas canvas = new GLCanvas();
 
         canvas.addGLEventListener(new Alone());
-        canvas.addKeyListener(CameraController.DEFAULT_CONTROLLER);
+        //canvas.addKeyListener(CameraController.DEFAULT_CONTROLLER);
         frame.add(canvas);
         frame.setSize(640, 480);
         final Animator animator = new Animator(canvas);
@@ -76,13 +75,13 @@ public class Alone implements GLEventListener {
         gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
 
         //
-        gl.glEnable(GL.GL_LIGHTING);
+        //gl.glEnable(GL.GL_LIGHTING);
 
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable (GL.GL_BLEND);
         gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-        game = new Game();
+        //game = new Game();
         game.init(gl);
     }
 
