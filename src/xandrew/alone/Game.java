@@ -150,9 +150,24 @@ public class Game implements GLRenderable {
 
     public void draw(GL gl) {
 
+        gl.glPushMatrix();
+        gl.glTranslatef(0.0f, 0.0f, -0.6f);
+
+        
+
+        //put things here that the player holds
+            gl.glRotated(20, 1.0, 0.0, 0.0);
+            gl.glRotated(20, 0.0, 1.0, 0.0);
+            gl.glRotated(20, 0.0, 0.0, 1.0);
+            new GLUT().glutSolidCube(0.1f);
+
+        gl.glPopMatrix();
+        
         gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);  //rotate our camera on teh x-axis (left and right)
         gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);  //rotate our camera on the y-axis (up and down)
         gl.glTranslated(-xpos, -ypos, -zpos); //translate the screen to the position of our camera
+
+        
 
         scene.draw(gl);
     }

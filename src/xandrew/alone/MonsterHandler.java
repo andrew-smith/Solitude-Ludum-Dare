@@ -68,11 +68,14 @@ public class MonsterHandler extends Node
         public void update()
         {
             setTranslation(getTranslation()[0],(float) ((float) Math.PI/2 + Math.sin(yVal += 0.02)), getTranslation()[2]);
+            setRotation(rVal += 0.4, 0.5f, 1.0f, 0.2f);
+
             super.update();
         }
 
 
-        private float yVal = 0;
+        private float yVal = (float) (rand.nextFloat() * Math.PI);
+        private float rVal = rand.nextInt(360);
 
         @Override
         public void draw(GL gl)
