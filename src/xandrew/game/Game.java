@@ -96,7 +96,7 @@ public class Game implements GLRenderable
         
 
 
-        
+        /*
         maskShader = new ShaderNode("MaskShader");
         maskShader.loadShaderSource(GL.GL_VERTEX_SHADER, "shaders/mask/v.glsl");
         maskShader.loadShaderSource(GL.GL_FRAGMENT_SHADER, "shaders/mask/f.glsl");
@@ -106,7 +106,7 @@ public class Game implements GLRenderable
         bigNode.setScale(10000);
         maskShader.addChild(bigNode);
 
-
+        */
 
 
     }
@@ -144,7 +144,7 @@ public class Game implements GLRenderable
 
     
 
-    ShaderNode maskShader;
+    //ShaderNode maskShader;
 
 
     public void update()
