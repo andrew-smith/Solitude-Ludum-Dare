@@ -20,6 +20,7 @@ import scene.RenderableNode;
 import scene.shapes.GLSquare;
 import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
+import xandrew.game.light.Obstacle;
 
 /**
  *
@@ -45,6 +46,8 @@ public abstract class GameLevel extends Node
 
      /** All the beams of light */
      private ArrayList<LightBeam> lightBeams = new ArrayList<LightBeam>();
+     /** All the obstacles */
+     private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
      /** The one and only exit portal */
      private ExitPortal exitPortal;
@@ -241,6 +244,11 @@ public abstract class GameLevel extends Node
 
 
     
+    public void addObstacle(Obstacle ob)
+    {
+        this.obstacles.add(ob);
+    }
+    
 
     public void addLightBeam(LightBeam lb)
     {
@@ -266,7 +274,7 @@ public abstract class GameLevel extends Node
         light.destY = light.yPos;
         //set light beam source
         int length = 1; //go past the boundaries
-        while( checkPosition(light.destX, light.destY, light) && !checkExitPortal(light))
+        while( checkPosition(light.destX, light.destY, light, true) && !checkExitPortal(light))
         {
             light.destX = (float) (light.xPos + length * Math.cos(Math.toRadians(light.rotation)));
             light.destY = (float) (light.yPos + length * Math.sin(Math.toRadians(light.rotation)));
@@ -430,7 +438,7 @@ public abstract class GameLevel extends Node
      */
     public void moveToPostion(float pX, float pY)
     {
-        if(checkPosition(pX, pY, null) )
+        if(checkPosition(pX, pY, null, false) )
         {
             player.setTranslation((-getWidth()/2) + pX, (-getHeight()/2) + pY);
         }
@@ -441,9 +449,11 @@ public abstract class GameLevel extends Node
      * Checks if the position x, y is valid
      * @param x
      * @param y
+     * @param ignoreThisLight a light to ignore (or null)
+     * @param isLaser true if this is a laser calling the method - as some obstacles could be unaffected by laster
      * @return true if valid, false if not
      */
-    public boolean checkPosition(float x, float y, LightBeam ignoreThisLight)
+    public boolean checkPosition(float x, float y, LightBeam ignoreThisLight, boolean isLaser)
     {
         boolean moved = false;
 
@@ -470,6 +480,18 @@ public abstract class GameLevel extends Node
                      }
                 }
             }
+        }
+
+        //need to check any obstacles in the way
+        for (Obstacle ob : obstacles) {
+            if(ob.isActive() && ob.affectsLaser())
+            {
+                if(ob.contains(x, y))
+                {
+                    moved = false;
+                }
+            }
+
         }
 
         return moved;
