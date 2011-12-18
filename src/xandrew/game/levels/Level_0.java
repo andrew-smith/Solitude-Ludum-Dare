@@ -2,9 +2,11 @@
 
 package xandrew.game.levels;
 
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import javax.media.opengl.GL;
+import xandrew.game.CameraController;
 import xandrew.game.GameLevel;
 import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
@@ -70,6 +72,12 @@ public class Level_0 extends GameLevel
     @Override
     public void interact()
     {
+
+
+        CameraController key = CameraController.DEFAULT_CONTROLLER;
+
+
+
         checkLightBeams();
 
         float playerX = getCurrentPlayerX();
@@ -81,11 +89,75 @@ public class Level_0 extends GameLevel
             //and ensure it is on
            if(lb.isPowered)
            {
+               //standardize rotation
+               while(lb.rotation > 360) lb.rotation -= 360;
+               while(lb.rotation < 0) lb.rotation += 360;
+
                if(playerX > lb.xPos - (lb.getScale() * 2) && playerX <lb.xPos + (lb.getScale() * 2))
                {
                    if(playerY > lb.yPos - (lb.getScale() * 2) && playerY < lb.yPos + (lb.getScale() * 2))
                    {
-                       lb.rotation++;
+                       //90 degrees is UP
+                       if(key.poll(KeyEvent.VK_UP))
+                       {
+                           if(!(lb.rotation > 89 && lb.rotation < 91))
+                           {
+                               if(lb.rotation > 90 && lb.rotation < 270)
+                               {
+                                   lb.rotation--;
+                               }
+                               else
+                               {
+                                   lb.rotation++;
+                               }
+                           }
+                           else lb.rotation = 90;
+                       }
+                       if(key.poll(KeyEvent.VK_DOWN))
+                       {
+                           if(!(lb.rotation > 269 && lb.rotation < 271))
+                           {
+                               if(lb.rotation >= 90 && lb.rotation <= 270)
+                               {
+                                   lb.rotation++;
+                               }
+                               else
+                               {
+                                   lb.rotation--;
+                               }
+                           }
+                           else lb.rotation = 270;
+                       }
+                       if(key.poll(KeyEvent.VK_LEFT))
+                       {
+                           if(!(lb.rotation > 179 && lb.rotation < 181))
+                           {
+                               if(lb.rotation <= 180 && lb.rotation >= 0)
+                               {
+                                   lb.rotation++;
+                               }
+                               else
+                               {
+                                   lb.rotation--;
+                               }
+                           }
+                           else lb.rotation = 180;
+                       }
+                       if(key.poll(KeyEvent.VK_RIGHT))
+                       {
+                           if((lb.rotation > 1))
+                           {
+                               if(lb.rotation <= 180 && lb.rotation >= 0)
+                               {
+                                   lb.rotation--;
+                               }
+                               else
+                               {
+                                   lb.rotation++;
+                               }
+                           }
+                           else lb.rotation = 0;
+                       }
                    }
                }
            }

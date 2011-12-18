@@ -303,27 +303,30 @@ public abstract class GameLevel extends Node
         CameraController key = CameraController.DEFAULT_CONTROLLER;
 
 
-        if(key.poll(KeyEvent.VK_W) || key.poll(KeyEvent.VK_UP))
+        if(key.poll(KeyEvent.VK_W))// || key.poll(KeyEvent.VK_UP))
         {
             moveToPostion(getCurrentPlayerX(), getCurrentPlayerY() + P_MOVE);
         }
-        if(key.poll(KeyEvent.VK_S) || key.poll(KeyEvent.VK_DOWN))
+        if(key.poll(KeyEvent.VK_S))// || key.poll(KeyEvent.VK_DOWN))
         {
             moveToPostion(getCurrentPlayerX(), getCurrentPlayerY() - P_MOVE);
         }
-        if(key.poll(KeyEvent.VK_A) || key.poll(KeyEvent.VK_LEFT))
+        if(key.poll(KeyEvent.VK_A))// || key.poll(KeyEvent.VK_LEFT))
         {
             moveToPostion(getCurrentPlayerX() - P_MOVE, getCurrentPlayerY());
         }
-        if(key.poll(KeyEvent.VK_D) || key.poll(KeyEvent.VK_RIGHT))
+        if(key.poll(KeyEvent.VK_D))// || key.poll(KeyEvent.VK_RIGHT))
         {
             moveToPostion(getCurrentPlayerX() + P_MOVE, getCurrentPlayerY());
         }
 
+        /*
         if(key.poll(KeyEvent.VK_SPACE))
         {
             interact();
         }
+         */
+        interact();
 
         super.update();
     }
