@@ -639,30 +639,34 @@ public abstract class GameLevel extends Node
         return player.getTranslation()[1] + getHeight()/2;
     }
 
+    private boolean victoryShown = false;
+
     @Override
     public void update()
     {
         CameraController key = CameraController.DEFAULT_CONTROLLER;
 
+        if(!isCompleted())
+        {
+            if(key.poll(KeyEvent.VK_W))// || key.poll(KeyEvent.VK_UP))
+            {
+                moveToPostion(getCurrentPlayerX(), getCurrentPlayerY() + P_MOVE);
+            }
+            if(key.poll(KeyEvent.VK_S))// || key.poll(KeyEvent.VK_DOWN))
+            {
+                moveToPostion(getCurrentPlayerX(), getCurrentPlayerY() - P_MOVE);
+            }
+            if(key.poll(KeyEvent.VK_A))// || key.poll(KeyEvent.VK_LEFT))
+            {
+                moveToPostion(getCurrentPlayerX() - P_MOVE, getCurrentPlayerY());
+            }
+            if(key.poll(KeyEvent.VK_D))// || key.poll(KeyEvent.VK_RIGHT))
+            {
+                moveToPostion(getCurrentPlayerX() + P_MOVE, getCurrentPlayerY());
+            }
 
-        if(key.poll(KeyEvent.VK_W))// || key.poll(KeyEvent.VK_UP))
-        {
-            moveToPostion(getCurrentPlayerX(), getCurrentPlayerY() + P_MOVE);
+            interact();
         }
-        if(key.poll(KeyEvent.VK_S))// || key.poll(KeyEvent.VK_DOWN))
-        {
-            moveToPostion(getCurrentPlayerX(), getCurrentPlayerY() - P_MOVE);
-        }
-        if(key.poll(KeyEvent.VK_A))// || key.poll(KeyEvent.VK_LEFT))
-        {
-            moveToPostion(getCurrentPlayerX() - P_MOVE, getCurrentPlayerY());
-        }
-        if(key.poll(KeyEvent.VK_D))// || key.poll(KeyEvent.VK_RIGHT))
-        {
-            moveToPostion(getCurrentPlayerX() + P_MOVE, getCurrentPlayerY());
-        }
-
-        interact();
 
         checkLightBeams();
 
@@ -685,6 +689,17 @@ public abstract class GameLevel extends Node
         }
 
         super.update();
+
+
+        if(isCompleted() && !victoryShown)
+        {
+            victoryShown = true;
+            new Thread() {
+                public void run() {
+                    JOptionPane.showMessageDialog(null, "Victory! You got out!", "Completed!", JOptionPane.PLAIN_MESSAGE);
+                }
+            }.start();
+        }
     }
 
 
