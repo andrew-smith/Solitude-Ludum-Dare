@@ -87,7 +87,7 @@ public class LightBeam implements GLRenderable
         gl.glPushMatrix();
             gl.glTranslatef(xPos, yPos, 0.0f);
             if(!isEmitting())
-                gl.glTranslatef(0.0f, 0.0f, -6f);
+                gl.glTranslatef(0.0f, 0.0f, -1f);
                 //square.setColour(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
             gl.glScaled(getScale(), getScale(), 1.0); //8x8 square
             square.draw(gl);
