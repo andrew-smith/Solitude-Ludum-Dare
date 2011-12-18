@@ -144,6 +144,7 @@ public class Level_0 extends GameLevel
         }
 
         //check exit portal
+        boolean originalPortalState = destination.isActive;
         destination.isActive = false;
         for(LightBeam lb :lightBeams)
         {
@@ -151,6 +152,10 @@ public class Level_0 extends GameLevel
                 destination.isActive = true;
         }
 
+        if(!originalPortalState && destination.isActive)
+        {
+            playSound(Sound.PortalActivated);
+        }
 
 
         //check if the state of any changed

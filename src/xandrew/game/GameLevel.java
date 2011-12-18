@@ -199,7 +199,7 @@ public abstract class GameLevel extends Node
 
     public enum Sound
     {
-        LightOn("lightActive.wav");
+        LightOn("lightActive.wav"), PortalActivated("portalActive.wav");
 
         private Sound(String f)
         {
