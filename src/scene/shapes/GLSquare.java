@@ -18,7 +18,7 @@ public class GLSquare extends GLTextureable
     }
 
 
-    private float[] colour = {1.0f, 1.0f, 1.0f};
+    private float[] colour = {1.0f, 1.0f, 1.0f, 1.0f};
 
     public void setColour(float[] c)
     {
@@ -32,7 +32,7 @@ public class GLSquare extends GLTextureable
 
         //gl.glDisable(GL.GL_LIGHTING);
         gl.glBegin(GL.GL_TRIANGLE_FAN);
-                gl.glColor3fv(colour, 0);
+                gl.glColor4fv(colour, 0);
                 gl.glNormal3f(0.0f, 1.0f, 0.0f);
 
                 gl.glTexCoord2f(0.0f, 0.0f);

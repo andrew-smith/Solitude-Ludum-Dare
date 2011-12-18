@@ -62,18 +62,18 @@ public class LightBeam implements GLRenderable
         gl.glPushMatrix();
             gl.glTranslatef(xPos, yPos, 0.0f);
             if(isPowered)
-                square.setColour(new float[] {1.0f, 1.0f, 0.0f});
+                square.setColour(new float[] {1.0f, 1.0f, 0.0f, 1.0f});
             else
-                square.setColour(new float[] {0.0f, 0.0f, 0.0f});
+                square.setColour(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
             gl.glScaled(getScale(), getScale(), 1.0); //8x8 square
             square.draw(gl);
         gl.glPopMatrix();
 
         if(isPowered)
         {
-            gl.glLineWidth(7);
+            gl.glLineWidth(2);
             gl.glBegin(GL.GL_LINES);
-                gl.glColor3f(0.0f, 0.0f, 1.0f);
+                gl.glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
                 gl.glVertex2f(xPos, yPos);
                 gl.glVertex2f(destX,destY);
             gl.glEnd();

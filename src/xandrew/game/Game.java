@@ -62,7 +62,7 @@ public class Game implements GLRenderable
         maskNode.setScale(level.getWidth(), level.getHeight(), 1);
         //now add some more shapes on so the rest is blacked out
         GLSquare blackness = new GLSquare();
-        blackness.setColour(new float[]{0.0f, 0.0f, 0.0f});
+        blackness.setColour(new float[]{0.0f, 0.0f, 0.0f, 1.0f});
 
         //set a big scale so we can
         float bigScale = (level.getHeight() > level.getWidth()) ? level.getHeight() * 2 : level.getWidth() * 2;
@@ -88,7 +88,7 @@ public class Game implements GLRenderable
         maskNode.addChild(right);
 
 
-        /*
+        
         maskShader = new ShaderNode("MaskShader");
         maskShader.loadShaderSource(GL.GL_VERTEX_SHADER, "shaders/mask/v.glsl");
         maskShader.loadShaderSource(GL.GL_FRAGMENT_SHADER, "shaders/mask/f.glsl");
@@ -97,14 +97,14 @@ public class Game implements GLRenderable
         RenderableNode bigNode = new RenderableNode("BigMaskNode", new GLSquare());
         bigNode.setScale(10000);
         maskShader.addChild(bigNode);
-        */
+        
 
     }
 
 
     
 
-    //ShaderNode maskShader;
+    ShaderNode maskShader;
 
     public void update()
     {
@@ -131,20 +131,17 @@ public class Game implements GLRenderable
 
         gl.glTranslatef(0.0f, 0.0f, 6.0f);
         gl.glTranslatef(player.getNodeGlobalX(), player.getNodeGlobalY(), 0);
-        maskNode.draw(gl);
+        //maskNode.draw(gl);
         
         //set blending for mask
-        /*
+        
         gl.glEnable(GL.GL_BLEND);
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-
-        System.out.println("playerX: " + player.getNodeGlobalX());
-        System.out.println("playerY: " + player.getNodeGlobalY());
 
         maskShader.setUniformF(gl, "playerX", player.getNodeGlobalX());
         maskShader.setUniformF(gl, "playerY", player.getNodeGlobalY());
         maskShader.draw(gl);
-        */
+        
 
 
 

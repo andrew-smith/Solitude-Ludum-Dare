@@ -136,8 +136,8 @@ public abstract class GameLevel extends Node
         //create a visual display
         GLSquare square = new GLSquare();
         square.setFileName("images/level" + levelID + "_bg.png");
-        RenderableNode rn = new RenderableNode("LevelDisplay", square);
-        rn.setScale(levelData.getWidth(), levelData.getHeight(), 1);
+        RenderableNode levelDisplay = new RenderableNode("LevelDisplay", square);
+        levelDisplay.setScale(levelData.getWidth(), levelData.getHeight(), 1);
 
 
         //create player visual
@@ -153,7 +153,7 @@ public abstract class GameLevel extends Node
 
         //moveToPostion(50,50);
 
-        addChild(rn);
+        addChild(levelDisplay);
 
         
 
@@ -318,6 +318,10 @@ public abstract class GameLevel extends Node
             drawLightBeams(gl);
         gl.glPopMatrix();
 
-        super.draw(gl);
+        gl.glPushMatrix();
+            super.draw(gl);
+        gl.glPopMatrix();
+
+        
     }
 }
