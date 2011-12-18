@@ -162,7 +162,7 @@ public class Game implements GLRenderable
 
         gl.glTranslatef(0.0f, 0.0f, 6f);
 
-
+        //this is for the lasers that appear in the dark - so we can see them but not in their full colour
         globalMaskNode.draw(gl);
         
         //set blending for mask
