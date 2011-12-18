@@ -26,7 +26,7 @@ public abstract class Obstacle implements GLRenderable
 
     public boolean isActive()
     {
-        return this.isActive();
+        return this.active;
     }
 
 

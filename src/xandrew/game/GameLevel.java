@@ -484,11 +484,15 @@ public abstract class GameLevel extends Node
 
         //need to check any obstacles in the way
         for (Obstacle ob : obstacles) {
-            if(ob.isActive() && ob.affectsLaser())
+            if(ob.isActive())
             {
-                if(ob.contains(x, y))
+                //if it;s NOT the laser OR it is the laser and the object affects it
+                if(!isLaser || (ob.affectsLaser() && isLaser) )
                 {
-                    moved = false;
+                    if(ob.contains(x, y))
+                    {
+                        moved = false;
+                    }
                 }
             }
 
