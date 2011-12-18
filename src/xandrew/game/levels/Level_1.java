@@ -13,17 +13,17 @@ import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
 
 /**
- * The first level of the 
+ * The first level of the
  * @author Andrew
  */
-public class Level_0 extends GameLevel
+public class Level_1 extends GameLevel
 {
 
-    
-    
-    public Level_0()
+
+
+    public Level_1()
     {
-        super(0);
+        super(1);
     }
 
 
@@ -36,7 +36,7 @@ public class Level_0 extends GameLevel
         setExit(destination);
 
         //set player starting position
-        moveToPostion(75, 75);
+        moveToPostion(75, 50);
 
         //adds all the light beams to the collision
         //addLightBeam(sourceLight);
@@ -57,10 +57,9 @@ public class Level_0 extends GameLevel
 
     /** These need to be in the order of what is lit */
     private LightBeam[] lightBeams = {
-        new LightBeam(50, 50, true),
-        new LightBeam(50, 550),
-        new LightBeam(340, 540),
-        new LightBeam(400, 350),
+        new LightBeam(80, 300, true),
+        new LightBeam(350, 220),
+        new LightBeam(512, 350),
         new LightBeam(750, 350),
     };
 
