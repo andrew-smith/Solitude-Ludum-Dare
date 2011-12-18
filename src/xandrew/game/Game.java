@@ -45,10 +45,15 @@ public class Game implements GLRenderable
     private RenderableNode globalMaskNode;
 
 
+    public void setLevel(GameLevel l)
+    {
+        this.level = l;
+    }
+
     public void init(GL gl)
     {
 
-        level = new Level_2();
+        //level = new Level_1();
         
         rootNode.addChild(level);
 
@@ -104,6 +109,15 @@ public class Game implements GLRenderable
 
 
 
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isCompleted()
+    {
+        return level.isCompleted();
     }
 
 

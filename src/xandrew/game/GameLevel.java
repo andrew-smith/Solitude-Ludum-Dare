@@ -53,6 +53,7 @@ public abstract class GameLevel extends Node
      private ExitPortal exitPortal;
 
 
+     private boolean isCompleted = false;
 
     /**
      * Creates a new level with an id
@@ -219,17 +220,20 @@ public abstract class GameLevel extends Node
         }
 
         //check exit portal
-        boolean originalPortalState = exitPortal.isActive;
-        exitPortal.isActive = false;
-        for(LightBeam lb :lightBeams)
+        if(exitPortal != null)
         {
-            if(checkExitPortal(lb))
-                exitPortal.isActive = true;
-        }
+            boolean originalPortalState = exitPortal.isActive;
+            exitPortal.isActive = false;
+            for(LightBeam lb :lightBeams)
+            {
+                if(checkExitPortal(lb))
+                    exitPortal.isActive = true;
+            }
 
-        if(!originalPortalState && exitPortal.isActive)
-        {
-            playSound(Sound.PortalActivated);
+            if(!originalPortalState && exitPortal.isActive)
+            {
+                playSound(Sound.PortalActivated);
+            }
         }
 
 
@@ -296,7 +300,8 @@ public abstract class GameLevel extends Node
             lb.draw(gl);
         gl.glPopMatrix();
 
-        exitPortal.draw(gl);
+        if(exitPortal != null)
+            exitPortal.draw(gl);
     }
 
     /**
@@ -403,6 +408,11 @@ public abstract class GameLevel extends Node
     private AudioManager soundLib = new AudioManager();
 
 
+
+
+    
+
+
     public enum Sound
     {
         LightOn("lightActive.wav"), PortalActivated("portalActive.wav");
@@ -437,6 +447,11 @@ public abstract class GameLevel extends Node
         return levelData.getHeight();
     }
 
+
+    public boolean isCompleted()
+    {
+        return isCompleted;
+    }
 
     /**
      *
@@ -557,6 +572,15 @@ public abstract class GameLevel extends Node
             obstacle.update();
         }
         checkLightBeams();
+
+
+        //check if player has won
+        if(exitPortal != null && exitPortal.isActive)
+        {
+            if(getCurrentPlayerX() > exitPortal.xPos - exitPortal.scale && getCurrentPlayerX() < exitPortal.xPos + exitPortal.scale)
+                if(getCurrentPlayerY() > exitPortal.yPos - exitPortal.scale && getCurrentPlayerY() < exitPortal.yPos + exitPortal.scale)
+                    isCompleted = true;
+        }
 
         super.update();
     }

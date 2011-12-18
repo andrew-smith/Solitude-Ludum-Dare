@@ -31,6 +31,13 @@ public class Level_1 extends GameLevel
     @Override
     public void init(GL gl)
     {
+        //adds all the light beams to the collision
+        //addLightBeam(sourceLight);
+        for(LightBeam lb :lightBeams)
+        {
+            addLightBeam(lb);
+        }
+        
         super.init(gl);
 
         setExit(destination);
@@ -38,12 +45,7 @@ public class Level_1 extends GameLevel
         //set player starting position
         moveToPostion(75, 50);
 
-        //adds all the light beams to the collision
-        //addLightBeam(sourceLight);
-        for(LightBeam lb :lightBeams)
-        {
-            addLightBeam(lb);
-        }
+        
 
         destination.init(gl);
 
@@ -59,7 +61,7 @@ public class Level_1 extends GameLevel
     private LightBeam[] lightBeams = {
         new LightBeam(80, 300, true),
         new LightBeam(350, 220),
-        new LightBeam(512, 350),
+        new LightBeam(500, 350),
         new LightBeam(750, 350),
     };
 

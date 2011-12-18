@@ -13,6 +13,7 @@ import scene.GLRenderable;
 import scene.Scene;
 import xandrew.game.CameraController;
 import xandrew.game.Game;
+import xandrew.game.Menu;
 
 
 
@@ -83,7 +84,8 @@ public class Alone implements GLEventListener {
         gl.glEnable (GL.GL_BLEND);
         gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-        game = new Game();
+
+        game = new Menu();
         game.init(gl);
     }
 
