@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.media.opengl.GL;
 import xandrew.game.CameraController;
 import xandrew.game.GameLevel;
+import xandrew.game.light.DelayedLightBeam;
 import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
 
@@ -61,10 +62,10 @@ public class Level_0 extends GameLevel
     /** These need to be in the order of what is lit */
     private LightBeam[] lightBeams = {
         sourceLight,
-        new LightBeam(50, 550),
+        new DelayedLightBeam(50, 550),
         new LightBeam(340, 540),
         new LightBeam(400, 350),
-        new LightBeam(750, 350),
+        new DelayedLightBeam(750, 350),
     };
 
 
@@ -87,7 +88,7 @@ public class Level_0 extends GameLevel
         for (LightBeam lb : lightBeams)
         {
             //and ensure it is on
-           if(lb.isPowered)
+           if(lb.isEmitting())
            {
                //standardize rotation
                while(lb.rotation > 360) lb.rotation -= 360;
@@ -167,8 +168,16 @@ public class Level_0 extends GameLevel
     }
 
 
+    @Override
+    public void update()
+    {
+        super.update();
 
-    private void checkLightBeams()
+        checkLightBeams();
+    }
+
+
+    public void checkLightBeams()
     {
         //source light is always powered
         sourceLight.isPowered = true;
@@ -177,7 +186,7 @@ public class Level_0 extends GameLevel
         Map<LightBeam, Boolean> lightStates = new HashMap<LightBeam, Boolean>();
 
         for (LightBeam lb : lightBeams) {
-            lightStates.put(lb, lb.isPowered);
+            lightStates.put(lb, lb.isEmitting());
         }
 
         //power off all the lightbeams to begin with
@@ -199,7 +208,7 @@ public class Level_0 extends GameLevel
             {
                 final float x = lSource.destX;
                 final float y = lSource.destY;
-                if(lSource != lDest && lSource.isPowered)
+                if(lSource != lDest && lSource.isEmitting())
                 {
                     float destScale = lDest.getScale();
                     //get if source is projecting at dest light
@@ -232,7 +241,7 @@ public class Level_0 extends GameLevel
 
         //check if the state of any changed
         for (LightBeam lb : lightBeams) {
-            if(lightStates.get(lb) == false && lb.isPowered) //then it has changed
+            if(lightStates.get(lb) == false && lb.isEmitting()) //then it has changed
             {
                 playSound(Sound.LightOn);
             }

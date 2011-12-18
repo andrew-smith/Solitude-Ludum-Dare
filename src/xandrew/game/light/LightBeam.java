@@ -46,9 +46,15 @@ public class LightBeam implements GLRenderable
     public void init(GL gl) {
     }
 
-    public void update() {
+    public void update()
+    {
     }
 
+
+    public boolean isEmitting()
+    {
+        return isPowered;
+    }
 
     public float getScale()
     {
@@ -61,7 +67,7 @@ public class LightBeam implements GLRenderable
 
         gl.glPushMatrix();
             gl.glTranslatef(xPos, yPos, 0.0f);
-            if(isPowered)
+            if(isEmitting())
                 square.setColour(new float[] {1.0f, 1.0f, 0.0f, 1.0f});
             else
                 square.setColour(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
@@ -69,7 +75,7 @@ public class LightBeam implements GLRenderable
             square.draw(gl);
         gl.glPopMatrix();
 
-        if(isPowered)
+        if(isEmitting())
         {
             gl.glLineWidth(2);
             gl.glBegin(GL.GL_LINES);

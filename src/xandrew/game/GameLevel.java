@@ -109,12 +109,15 @@ public abstract class GameLevel extends Node
      */
     public boolean checkExitPortal(LightBeam light)
     {
-        if(light.destX > exitPortal.xPos - exitPortal.scale && light.destX < exitPortal.xPos + exitPortal.scale)
+        if(light.isEmitting())
         {
-            if(light.destY > exitPortal.yPos - exitPortal.scale && light.destY < exitPortal.yPos + exitPortal.scale)
+            if(light.destX > exitPortal.xPos - exitPortal.scale && light.destX < exitPortal.xPos + exitPortal.scale)
             {
-                //exitPortal.isActive = true;
-                return true;
+                if(light.destY > exitPortal.yPos - exitPortal.scale && light.destY < exitPortal.yPos + exitPortal.scale)
+                {
+                    //exitPortal.isActive = true;
+                    return true;
+                }
             }
         }
 
@@ -320,14 +323,11 @@ public abstract class GameLevel extends Node
             moveToPostion(getCurrentPlayerX() + P_MOVE, getCurrentPlayerY());
         }
 
-        /*
-        if(key.poll(KeyEvent.VK_SPACE))
-        {
-            interact();
-        }
-         */
         interact();
 
+        for (LightBeam lightBeam : lightBeams) {
+            lightBeam.update();
+        }
         super.update();
     }
 
