@@ -27,11 +27,12 @@ public class Alone implements GLEventListener {
 
 
     //TODO put this in
-    private static GLRenderable game;
+    private static Game game;
 
+    public static int GAME_LEVEL = 0;
 
     public static void main(String[] args) {
-        Frame frame = new Frame("Alone - Ludum Dare");
+        Frame frame = new Frame("Solitude - Ludum Dare");
         GLCanvas canvas = new GLCanvas();
 
         canvas.addGLEventListener(new Alone());
@@ -86,6 +87,7 @@ public class Alone implements GLEventListener {
 
 
         game = new Game();
+        game.setLevel(GAME_LEVEL);
         game.init(gl);
     }
 

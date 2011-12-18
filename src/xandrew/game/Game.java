@@ -53,7 +53,7 @@ public class Game implements GLRenderable
     public void init(GL gl)
     {
 
-        level = new GameLevel(3) {};
+        //level = new GameLevel(3) {};
         
         rootNode.addChild(level);
 
@@ -192,5 +192,17 @@ public class Game implements GLRenderable
 
 
     }
+
+    public void setLevel(int GAME_LEVEL) 
+    {
+        switch(GAME_LEVEL)
+        {
+            case 0: setLevel(new Level_0()); break;
+            case 1: setLevel(new Level_1()); break;
+            case 2: setLevel(new Level_2()); break;
+            default: setLevel(new GameLevel(GAME_LEVEL) {});
+        }
+    }
+
 
 }
