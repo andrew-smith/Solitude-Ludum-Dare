@@ -85,7 +85,7 @@ public class Alone implements GLEventListener {
         gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
 
-        game = new Menu();
+        game = new Game();
         game.init(gl);
     }
 

@@ -53,7 +53,7 @@ public class Game implements GLRenderable
     public void init(GL gl)
     {
 
-        //level = new Level_1();
+        level = new Level_0();
         
         rootNode.addChild(level);
 
