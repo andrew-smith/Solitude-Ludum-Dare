@@ -345,7 +345,7 @@ public abstract class GameLevel extends Node
         try
         {
             //load image
-            BufferedImage tmp = ImageIO.read(new File("images/level" + levelID + "_data.png"));
+            BufferedImage tmp = ImageIO.read(new File("levels/" + levelID + "/data.png"));
             //levelDisplay = ImageIO.read(new File("images/level" + levelID + "_bg.png"));
 
             //have to flip image for data process
@@ -366,7 +366,7 @@ public abstract class GameLevel extends Node
 
         //create a visual display
         GLSquare square = new GLSquare();
-        square.setFileName("images/level" + levelID + "_bg.png");
+        square.setFileName("levels/" + levelID + "/bg.png");
         RenderableNode levelDisplay = new RenderableNode("LevelDisplay", square);
         levelDisplay.setScale(levelData.getWidth(), levelData.getHeight(), 1);
 
