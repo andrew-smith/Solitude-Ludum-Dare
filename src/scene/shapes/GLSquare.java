@@ -30,6 +30,8 @@ public class GLSquare extends GLTextureable
 
         bindTexture(gl);
 
+        gl.glEnable(GL.GL_BLEND);
+
         //gl.glDisable(GL.GL_LIGHTING);
         gl.glBegin(GL.GL_TRIANGLE_FAN);
                 gl.glColor4fv(colour, 0);

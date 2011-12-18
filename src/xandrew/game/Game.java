@@ -37,7 +37,11 @@ public class Game implements GLRenderable
 
     GameLevel level;
 
+    /** Node to overlay the blackness */
     private RenderableNode maskNode;
+    /** Node to overlay the lazers */
+    private RenderableNode globalMaskNode;
+
 
     public void init(GL gl)
     {
@@ -52,6 +56,12 @@ public class Game implements GLRenderable
         maskNode = new RenderableNode("Mask");
         maskNode.setRenderTarget(mask);
 
+        GLSquare maskG = new GLSquare();
+        maskG.setFileName("images/mask.png");
+        maskG.setColour(new float[]{0.0f, 0.0f, 0.0f, 0.8f});
+        globalMaskNode = new RenderableNode("GlobalMask");
+        globalMaskNode.setRenderTarget(maskG);
+        globalMaskNode.init(gl);
 
         maskNode.init(gl);
         
@@ -60,6 +70,7 @@ public class Game implements GLRenderable
         scene.init(gl);
 
         maskNode.setScale(level.getWidth(), level.getHeight(), 1);
+        globalMaskNode.setScale(level.getWidth(), level.getHeight(), 1);
         //now add some more shapes on so the rest is blacked out
         GLSquare blackness = new GLSquare();
         blackness.setColour(new float[]{0.0f, 0.0f, 0.0f, 1.0f});
@@ -68,24 +79,14 @@ public class Game implements GLRenderable
         float bigScale = (level.getHeight() > level.getWidth()) ? level.getHeight() * 2 : level.getWidth() * 2;
 
 
-        //top
-        RenderableNode top = new RenderableNode("MaskTop", blackness);
-        top.setTranslation(0, level.getHeight()/2);
-        top.setScale(bigScale);
-        RenderableNode bottom = new RenderableNode("MaskTop", blackness);
-        bottom.setTranslation(0, -level.getHeight()/2);
-        bottom.setScale(bigScale);
-        RenderableNode left = new RenderableNode("MaskTop", blackness);
-        left.setTranslation(-level.getWidth()/2, 0);
-        left.setScale(bigScale);
-        RenderableNode right = new RenderableNode("MaskTop", blackness);
-        right.setTranslation(+level.getWidth()/2, 0);
-        right.setScale(bigScale);
+        GLSquare laserBlackness = new GLSquare();
+        laserBlackness.setFileName("images/gmask.png");
+        laserBlackness.init(gl);
+        //laserBlackness.setColour(new float[]{1.0f, 0.0f, 0.0f, 0.0f});
 
-        maskNode.addChild(top);
-        maskNode.addChild(bottom);
-        maskNode.addChild(left);
-        maskNode.addChild(right);
+        createExpandedMask(maskNode, blackness, bigScale);
+        createExpandedMask(globalMaskNode, laserBlackness, bigScale);
+        
 
 
         
@@ -97,21 +98,44 @@ public class Game implements GLRenderable
         RenderableNode bigNode = new RenderableNode("BigMaskNode", new GLSquare());
         bigNode.setScale(10000);
         maskShader.addChild(bigNode);
-        
+
+
+
 
     }
 
 
+    private void createExpandedMask(Node parent, GLRenderable target, float scale)
+    {
+        RenderableNode top = new RenderableNode("MaskTop", target);
+        top.setTranslation(0, level.getHeight()/2);
+        top.setScale(scale);
+        RenderableNode bottom = new RenderableNode("MaskTop", target);
+        bottom.setTranslation(0, -level.getHeight()/2);
+        bottom.setScale(scale);
+        RenderableNode left = new RenderableNode("MaskTop", target);
+        left.setTranslation(-level.getWidth()/2, 0);
+        left.setScale(scale);
+        RenderableNode right = new RenderableNode("MaskTop", target);
+        right.setTranslation(+level.getWidth()/2, 0);
+        right.setScale(scale);
+
+        parent.addChild(top);
+        parent.addChild(bottom);
+        parent.addChild(left);
+        parent.addChild(right);
+    }
+
     
 
     ShaderNode maskShader;
+
 
     public void update()
     {
 
         scene.update();
     }
-
 
 
     public void draw(GL gl)
@@ -128,10 +152,16 @@ public class Game implements GLRenderable
 
         Node player = level.getPlayer();
 
+        
 
         gl.glTranslatef(0.0f, 0.0f, 6.0f);
         gl.glTranslatef(player.getNodeGlobalX(), player.getNodeGlobalY(), 0);
-        //maskNode.draw(gl);
+        maskNode.draw(gl);
+
+        gl.glTranslatef(0.0f, 0.0f, 6f);
+
+
+        globalMaskNode.draw(gl);
         
         //set blending for mask
         /*

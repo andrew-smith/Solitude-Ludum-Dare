@@ -246,8 +246,11 @@ public class Level_0 extends GameLevel
     {
         //sourceLight.draw(gl);
 
+        gl.glPushMatrix();
+        gl.glTranslatef(0.0f, 0.0f, 6f);
         for(LightBeam lb :lightBeams)
             lb.draw(gl);
+        gl.glPopMatrix();
 
         destination.draw(gl);
     }
