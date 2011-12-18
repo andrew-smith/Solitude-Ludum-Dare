@@ -542,6 +542,9 @@ public abstract class GameLevel extends Node
             lightBeam.update();
         }
 
+        for (Obstacle obstacle : obstacles) {
+            obstacle.update();
+        }
         checkLightBeams();
 
         super.update();
@@ -565,6 +568,9 @@ public abstract class GameLevel extends Node
         gl.glPushMatrix();
             gl.glScalef(2.0f, 2.0f, 1.0f);
             gl.glTranslatef(-getWidth()/2, -getHeight()/2, 0.1f);
+            for (Obstacle obstacle : obstacles) {
+                obstacle.draw(gl);
+            }
             drawLightBeams(gl);
         gl.glPopMatrix();
 
