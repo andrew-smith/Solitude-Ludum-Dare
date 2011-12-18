@@ -391,6 +391,12 @@ public abstract class GameLevel extends Node
             soundLib.loadSound("sounds/" + s, s.toString());
         }
 
+
+
+        for (LightBeam lightBeam : lightBeams) {
+            lightBeam.init(gl);
+        }
+
     }
     
     /** Audio manager  */

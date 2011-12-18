@@ -28,13 +28,6 @@ public class Level_2 extends GameLevel
     @Override
     public void init(GL gl)
     {
-        super.init(gl);
-
-        setExit(destination);
-
-        //set player starting position
-        moveToPostion(75, 50);
-
         //adds all the light beams to the collision
         //addLightBeam(sourceLight);
         for(LightBeam lb :lightBeams)
@@ -42,6 +35,15 @@ public class Level_2 extends GameLevel
             addLightBeam(lb);
         }
 
+        
+        super.init(gl);
+
+        setExit(destination);
+
+        //set player starting position
+        moveToPostion(75, 50);
+
+        
         Obstacle popup = new PopupBlock();
         popup.init(gl);
         addObstacle(popup);

@@ -51,9 +51,16 @@ public class LightBeam implements GLRenderable
     }
 
     /** The square to draw at the source */
-    private GLSquare square = new GLSquare();
+    private static final GLSquare square = new GLSquare();
+    private static boolean inited = false;
 
     public void init(GL gl) {
+        if(!inited)
+        {
+            square.setFileName("images/LightTurret.png");
+            square.init(gl);
+            inited = true;
+        }
     }
 
     public void update()
@@ -75,12 +82,13 @@ public class LightBeam implements GLRenderable
     {
 
 
+        square.setColour(new float[] {1.0f, 1.0f, 0.0f, 1.0f});
+
         gl.glPushMatrix();
             gl.glTranslatef(xPos, yPos, 0.0f);
-            if(isEmitting())
-                square.setColour(new float[] {1.0f, 1.0f, 0.0f, 1.0f});
-            else
-                square.setColour(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
+            if(!isEmitting())
+                gl.glTranslatef(0.0f, 0.0f, -6f);
+                //square.setColour(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
             gl.glScaled(getScale(), getScale(), 1.0); //8x8 square
             square.draw(gl);
         gl.glPopMatrix();
