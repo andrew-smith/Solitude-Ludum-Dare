@@ -1,7 +1,9 @@
 package xandrew;
 
 import com.sun.opengl.util.Animator;
+import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.media.opengl.GL;
@@ -40,7 +42,9 @@ public class Alone implements GLEventListener {
         canvas.addGLEventListener(new Alone());
         canvas.addKeyListener(CameraController.DEFAULT_CONTROLLER);
         frame.add(canvas);
+        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(640, 480);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         final Animator animator = new Animator(canvas);
         frame.addWindowListener(new WindowAdapter() {
 
