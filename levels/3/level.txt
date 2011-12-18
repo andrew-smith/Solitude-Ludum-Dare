@@ -1,0 +1,27 @@
+# this is a comment
+# coordinates start at 0,0 from the bottom left corner
+# all coordinates are pixel values
+
+# the first coordinate is ALWAYS the portal that is the exit
+740 300
+
+# the second is the PLAYERS STARTING POSITION
+75 75
+
+# the next coordinates are a list of all the light turrets in the map
+50 550
+380 500
+400 150 
+750 550
+
+# any turret with a boolean value of 'true' after it means it is a source turret and is ALWAYS lit
+50 50 true
+
+# any turret with a string of 'pulse' next to it means it is a pulsing turret (one second on - one second off)
+700 50 pulse
+
+# yes - you can have a source light that pulses 
+300 50 true pulse
+
+# and the last bit can be reversed
+400 50 pulse true

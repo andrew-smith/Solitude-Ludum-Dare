@@ -1,0 +1,7 @@
+This is an example level - so you can follow it can create your own.
+
+bg.png is the display of the level 
+data.png is the collisions in the map. 
+	Black == player and laser cannot move to that position
+	White == player and laser can move to that position
+	Red == (NOTE: THIS IS NOT IMPLEMENTED (TODO)) laser can move through, player cannot 

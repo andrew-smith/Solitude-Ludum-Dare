@@ -6,10 +6,13 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
@@ -18,6 +21,7 @@ import scene.GLRenderable;
 import scene.Node;
 import scene.RenderableNode;
 import scene.shapes.GLSquare;
+import xandrew.game.light.DelayedLightBeam;
 import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
 import xandrew.game.light.Obstacle;
@@ -341,6 +345,96 @@ public abstract class GameLevel extends Node
     public void init(GL gl)
     {
 
+        float[] playerStartCoords = null;
+        boolean exitLoaded = false;
+
+        //then attempt to find a data file with all the coordinates
+        if(this.lightBeams.size() == 0)
+        {
+            try {
+                Scanner scan = new Scanner(new File("levels/" + levelID + "/level.txt"));
+                String line = null;
+
+
+
+                while( scan.hasNextLine() && (line = scan.nextLine()) != null)
+                {
+                    //ensures it is a valid line
+                    if( ! (line.startsWith("#") || line.length() < 2))
+                    {
+                        Scanner lineScanner = new Scanner(line);
+                        try
+                        {
+                            //read values
+                            float x = lineScanner.nextFloat();
+                            float y = lineScanner.nextFloat();
+
+                            //first read is always the exit
+                            if(!exitLoaded)
+                            {
+                                ExitPortal ep = new ExitPortal(x, y);
+                                ep.init(gl);
+                                setExit(ep);
+
+                                exitLoaded = true;
+                            }
+                            //second read is player start coords
+                            else if(playerStartCoords == null)
+                            {
+                                playerStartCoords = new float[2];
+                                playerStartCoords[0] = x;
+                                playerStartCoords[1] = y;
+                            }
+                            else //it is a turret - so check for more values
+                            {
+                                boolean sourceTurret = false;
+                                boolean pulseTurret = false;
+                                while(lineScanner.hasNext())
+                                {
+                                    if(lineScanner.hasNextBoolean())
+                                    {
+                                        sourceTurret = lineScanner.nextBoolean();
+                                    }
+                                    else //it could be a string
+                                    {
+                                        String tmp = lineScanner.next();
+                                        if(tmp.equalsIgnoreCase("pulse"))
+                                        {
+                                            pulseTurret = true;
+                                        }
+                                    }
+                                }
+
+                                LightBeam lb;
+
+                                if(pulseTurret)
+                                {
+                                    lb = new DelayedLightBeam(x, y);
+                                }
+                                else
+                                {
+                                    lb = new LightBeam(x, y);
+                                }
+
+                                lb.isSourceLight = sourceTurret;
+                                addLightBeam(lb);
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Logger.getLogger(GameLevel.class.getName()).log(Level.INFO, "Error reading line: " + line );
+                            Logger.getLogger(GameLevel.class.getName()).log(Level.INFO, null, ex);
+                            //does here if a token isn't found
+                        }
+                    }
+                }
+            } catch (FileNotFoundException ex)
+            {
+                Logger.getLogger(GameLevel.class.getName()).log(Level.INFO, "No level.txt file found for level: " + levelID );
+                Logger.getLogger(GameLevel.class.getName()).log(Level.INFO, null, ex);
+            }
+        }
+
         //load images
         try
         {
@@ -398,8 +492,16 @@ public abstract class GameLevel extends Node
 
 
 
+
         for (LightBeam lightBeam : lightBeams) {
             lightBeam.init(gl);
+        }
+
+
+        //if player coords need to be placed
+        if(playerStartCoords != null)
+        {
+            moveToPostion(playerStartCoords[0], playerStartCoords[1]);
         }
 
     }
