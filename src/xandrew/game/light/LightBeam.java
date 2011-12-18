@@ -52,7 +52,7 @@ public class LightBeam implements GLRenderable
 
     /** The square to draw at the source */
     private static final GLSquare square = new GLSquare();
-    private static boolean inited = false;
+    private boolean inited = false;
 
     public void init(GL gl) {
         if(!inited)

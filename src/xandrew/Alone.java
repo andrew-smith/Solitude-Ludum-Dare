@@ -9,6 +9,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JFrame;
 import scene.GLRenderable;
 import scene.Scene;
 import xandrew.game.CameraController;
@@ -19,7 +20,7 @@ import xandrew.game.Menu;
 
 /**
  * Alone.java <BR>
- * author: Brian Paul (converted to Java by Ron Cemer and Sven Goethel) <P>
+ * author: Andrew && Brian Paul (converted to Java by Ron Cemer and Sven Goethel) <P>
  *
  * This version is equal to Brian Paul's version 1.2 1999/10/21
  */
@@ -32,7 +33,8 @@ public class Alone implements GLEventListener {
     public static int GAME_LEVEL = 0;
 
     public static void main(String[] args) {
-        Frame frame = new Frame("Solitude - Ludum Dare");
+        JFrame frame = new JFrame("Solitude - Ludum Dare");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         GLCanvas canvas = new GLCanvas();
 
         canvas.addGLEventListener(new Alone());
@@ -51,7 +53,7 @@ public class Alone implements GLEventListener {
 
                     public void run() {
                         animator.stop();
-                        System.exit(0);
+                        //System.exit(0);
                     }
                 }).start();
             }
