@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL;
@@ -41,6 +43,13 @@ public abstract class GameLevel extends Node
      /** The player's position */
      private Node player;
 
+     /** All the beams of light */
+     private ArrayList<LightBeam> lightBeams = new ArrayList<LightBeam>();
+
+     /** The one and only exit portal */
+     private ExitPortal exitPortal;
+
+
 
     /**
      * Creates a new level with an id
@@ -62,11 +71,176 @@ public abstract class GameLevel extends Node
     /**
      * Interact with the level at the current position
      */
-    public abstract void interact();
+    public void interact()
+    {
+        CameraController key = CameraController.DEFAULT_CONTROLLER;
+
+        float playerX = getCurrentPlayerX();
+        float playerY = getCurrentPlayerY();
+
+        //check if the player is by any light sources
+        for (LightBeam lb : lightBeams)
+        {
+            //and ensure it is on
+           if(lb.isEmitting())
+           {
+               //standardize rotation
+               while(lb.rotation > 360) lb.rotation -= 360;
+               while(lb.rotation < 0) lb.rotation += 360;
+
+               if(playerX > lb.xPos - (lb.getScale() * 2) && playerX <lb.xPos + (lb.getScale() * 2))
+               {
+                   if(playerY > lb.yPos - (lb.getScale() * 2) && playerY < lb.yPos + (lb.getScale() * 2))
+                   {
+                       //90 degrees is UP
+                       if(key.poll(KeyEvent.VK_UP))
+                       {
+                           if(!(lb.rotation > 89 && lb.rotation < 91))
+                           {
+                               if(lb.rotation > 90 && lb.rotation < 270)
+                               {
+                                   lb.rotation--;
+                               }
+                               else
+                               {
+                                   lb.rotation++;
+                               }
+                           }
+                           else lb.rotation = 90;
+                       }
+                       if(key.poll(KeyEvent.VK_DOWN))
+                       {
+                           if(!(lb.rotation > 269 && lb.rotation < 271))
+                           {
+                               if(lb.rotation >= 90 && lb.rotation <= 270)
+                               {
+                                   lb.rotation++;
+                               }
+                               else
+                               {
+                                   lb.rotation--;
+                               }
+                           }
+                           else lb.rotation = 270;
+                       }
+                       if(key.poll(KeyEvent.VK_LEFT))
+                       {
+                           if(!(lb.rotation > 179 && lb.rotation < 181))
+                           {
+                               if(lb.rotation <= 180 && lb.rotation >= 0)
+                               {
+                                   lb.rotation++;
+                               }
+                               else
+                               {
+                                   lb.rotation--;
+                               }
+                           }
+                           else lb.rotation = 180;
+                       }
+                       if(key.poll(KeyEvent.VK_RIGHT))
+                       {
+                           if((lb.rotation > 1))
+                           {
+                               if(lb.rotation <= 180 && lb.rotation >= 0)
+                               {
+                                   lb.rotation--;
+                               }
+                               else
+                               {
+                                   lb.rotation++;
+                               }
+                           }
+                           else lb.rotation = 0;
+                       }
+                   }
+               }
+           }
+        }
+    }
 
 
-    private ArrayList<LightBeam> lightBeams = new ArrayList<LightBeam>();
+    public void checkLightBeams()
+    {
+        //get all the source lights and ensure they are powered
+        //source light is always powered
+        for (LightBeam lb : lightBeams) {
+            if(lb.isSourceLight)
+                lb.isPowered = true;
+        }
 
+        //save the states of all the lights (if one changes to on then we will play a sound */
+        Map<LightBeam, Boolean> lightStates = new HashMap<LightBeam, Boolean>();
+
+        for (LightBeam lb : lightBeams) {
+            lightStates.put(lb, lb.isEmitting());
+        }
+
+        //power off all the non-source lights lightbeams to begin with
+        for (LightBeam lb : lightBeams) {
+            if(!lb.isSourceLight)
+                lb.isPowered = false;
+        }
+
+
+
+
+        //always project source light.
+        for (LightBeam lb : lightBeams) {
+            if(lb.isSourceLight)
+                projectLight(lb);
+        }
+        
+        //sourceLight.rotation ++;
+        //find out if any of the other light beams are powered
+        for(LightBeam lSource :lightBeams)
+        {
+            for(LightBeam lDest : lightBeams)
+            {
+                final float x = lSource.destX;
+                final float y = lSource.destY;
+                if(lSource != lDest && lSource.isEmitting())
+                {
+                    float destScale = lDest.getScale();
+                    //get if source is projecting at dest light
+                    if(x > lDest.xPos - destScale && x < lDest.xPos + destScale)
+                    {
+                        if(y > lDest.yPos - destScale && y < lDest.yPos + destScale)
+                        {
+                            lDest.isPowered = true;
+                            projectLight(lDest);
+                        }
+                    }
+                }
+            }
+        }
+
+        //check exit portal
+        boolean originalPortalState = exitPortal.isActive;
+        exitPortal.isActive = false;
+        for(LightBeam lb :lightBeams)
+        {
+            if(checkExitPortal(lb))
+                exitPortal.isActive = true;
+        }
+
+        if(!originalPortalState && exitPortal.isActive)
+        {
+            playSound(Sound.PortalActivated);
+        }
+
+
+        //check if the state of any changed
+        for (LightBeam lb : lightBeams) {
+            if(lightStates.get(lb) == false && lb.isEmitting()) //then it has changed
+            {
+                playSound(Sound.LightOn);
+            }
+        }
+    }
+
+
+    
 
     public void addLightBeam(LightBeam lb)
     {
@@ -74,8 +248,6 @@ public abstract class GameLevel extends Node
     }
 
 
-
-    private ExitPortal exitPortal;
 
     public void setExit(ExitPortal ep)
     {
@@ -100,6 +272,23 @@ public abstract class GameLevel extends Node
             light.destY = (float) (light.yPos + length * Math.sin(Math.toRadians(light.rotation)));
             length++;
         }
+    }
+
+    /**
+     * Draws all the light beams and exit
+     * @param gl
+     */
+    public void drawLightBeams(GL gl)
+    {
+        //sourceLight.draw(gl);
+
+        gl.glPushMatrix();
+        gl.glTranslatef(0.0f, 0.0f, 6f);
+        for(LightBeam lb :lightBeams)
+            lb.draw(gl);
+        gl.glPopMatrix();
+
+        exitPortal.draw(gl);
     }
 
     /**
@@ -325,15 +514,19 @@ public abstract class GameLevel extends Node
 
         interact();
 
+        checkLightBeams();
+
         for (LightBeam lightBeam : lightBeams) {
             lightBeam.update();
         }
+
+        checkLightBeams();
+
         super.update();
     }
 
 
     
-    public abstract void drawLightBeams(GL gl);
 
     @Override
     public void draw(GL gl)

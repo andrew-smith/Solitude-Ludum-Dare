@@ -22,12 +22,20 @@ public class LightBeam implements GLRenderable
 
     public boolean isPowered;
 
+
+    public boolean isSourceLight;
+
     /**
      * Creates a light beam from a central point
      * @param x
      * @param y
      */
     public LightBeam(float x, float y)
+    {
+        this(x, y, false);
+    }
+
+    public LightBeam(float x, float y, boolean sourceLight)
     {
         this.xPos = x;
         this.yPos = y;
@@ -38,6 +46,8 @@ public class LightBeam implements GLRenderable
         rotation = (float) (Math.random() * 360);
 
         isPowered = false;
+
+        isSourceLight = sourceLight;
     }
 
     /** The square to draw at the source */
