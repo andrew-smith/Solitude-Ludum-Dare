@@ -134,14 +134,14 @@ public class Game implements GLRenderable
         //maskNode.draw(gl);
         
         //set blending for mask
-        
+        /*
         gl.glEnable(GL.GL_BLEND);
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
         maskShader.setUniformF(gl, "playerX", player.getNodeGlobalX());
         maskShader.setUniformF(gl, "playerY", player.getNodeGlobalY());
         maskShader.draw(gl);
-        
+        */
 
 
 

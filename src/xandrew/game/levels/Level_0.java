@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.media.opengl.GL;
 import xandrew.game.GameLevel;
+import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
 
 /**
@@ -29,6 +30,7 @@ public class Level_0 extends GameLevel
     {
         super.init(gl);
 
+        setExit(destination);
 
         //set player starting position
         moveToPostion(75, 75);
@@ -40,6 +42,8 @@ public class Level_0 extends GameLevel
             addLightBeam(lb);
         }
 
+        destination.init(gl);
+
         //first light testing
         interact();
     }
@@ -50,13 +54,15 @@ public class Level_0 extends GameLevel
     private LightBeam sourceLight = new LightBeam(50, 50);
 
     /** What we are trying to light up */
-    private float[] destination = {750f, 550f};
+    private ExitPortal destination = new ExitPortal(750f, 550f);
 
     /** These need to be in the order of what is lit */
     private LightBeam[] lightBeams = {
         sourceLight,
         new LightBeam(50, 550),
         new LightBeam(340, 540),
+        new LightBeam(400, 350),
+        new LightBeam(750, 350),
     };
 
 
@@ -108,6 +114,7 @@ public class Level_0 extends GameLevel
                 lb.isPowered = false;
         }
 
+
         
 
         //so always project it.
@@ -136,6 +143,15 @@ public class Level_0 extends GameLevel
             }
         }
 
+        //check exit portal
+        destination.isActive = false;
+        for(LightBeam lb :lightBeams)
+        {
+            if(checkExitPortal(lb))
+                destination.isActive = true;
+        }
+
+
 
         //check if the state of any changed
         for (LightBeam lb : lightBeams) {
@@ -151,9 +167,11 @@ public class Level_0 extends GameLevel
     @Override
     public void drawLightBeams(GL gl) 
     {
-        sourceLight.draw(gl);
+        //sourceLight.draw(gl);
 
         for(LightBeam lb :lightBeams)
             lb.draw(gl);
+
+        destination.draw(gl);
     }
 }

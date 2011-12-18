@@ -16,6 +16,7 @@ import scene.GLRenderable;
 import scene.Node;
 import scene.RenderableNode;
 import scene.shapes.GLSquare;
+import xandrew.game.light.ExitPortal;
 import xandrew.game.light.LightBeam;
 
 /**
@@ -72,7 +73,14 @@ public abstract class GameLevel extends Node
         this.lightBeams.add(lb);
     }
 
-   
+
+
+    private ExitPortal exitPortal;
+
+    public void setExit(ExitPortal ep)
+    {
+        this.exitPortal = ep;
+    }
 
 
     /**
@@ -86,7 +94,7 @@ public abstract class GameLevel extends Node
         light.destY = light.yPos;
         //set light beam source
         int length = 1; //go past the boundaries
-        while( checkPosition(light.destX, light.destY, light))
+        while( checkPosition(light.destX, light.destY, light) && !checkExitPortal(light))
         {
             light.destX = (float) (light.xPos + length * Math.cos(Math.toRadians(light.rotation)));
             light.destY = (float) (light.yPos + length * Math.sin(Math.toRadians(light.rotation)));
@@ -94,6 +102,24 @@ public abstract class GameLevel extends Node
         }
     }
 
+    /**
+     * Checks if a light beam is touching the exit portal
+     * @param light
+     * @return
+     */
+    public boolean checkExitPortal(LightBeam light)
+    {
+        if(light.destX > exitPortal.xPos - exitPortal.scale && light.destX < exitPortal.xPos + exitPortal.scale)
+        {
+            if(light.destY > exitPortal.yPos - exitPortal.scale && light.destY < exitPortal.yPos + exitPortal.scale)
+            {
+                //exitPortal.isActive = true;
+                return true;
+            }
+        }
+
+        return false;
+    }
     
      
 
@@ -309,19 +335,22 @@ public abstract class GameLevel extends Node
     @Override
     public void draw(GL gl)
     {
-        gl.glTranslatef(-player.getTranslation()[0], -player.getTranslation()[1], 0);
 
-        //draw light beams
-        gl.glPushMatrix();
-            gl.glScalef(2.0f, 2.0f, 0.0f);
-            gl.glTranslatef(-getWidth()/2, -getHeight()/2, 0.0f);
-            drawLightBeams(gl);
-        gl.glPopMatrix();
+        gl.glTranslatef(-player.getTranslation()[0], -player.getTranslation()[1], 0);
 
         gl.glPushMatrix();
             super.draw(gl);
         gl.glPopMatrix();
 
+
+        //draw light beams
+        gl.glPushMatrix();
+            gl.glScalef(2.0f, 2.0f, 1.0f);
+            gl.glTranslatef(-getWidth()/2, -getHeight()/2, 0.1f);
+            drawLightBeams(gl);
+        gl.glPopMatrix();
+
+        
         
     }
 }
