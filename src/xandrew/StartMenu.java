@@ -12,7 +12,11 @@
 package xandrew;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -55,8 +59,9 @@ public class StartMenu extends javax.swing.JFrame {
 
 
         cbxListLevels.setModel(new DefaultComboBoxModel(listOfLevels.toArray()));
-    }
 
+        popupateTextFields();
+    }
 
     private ArrayList<File> listOfLevels = new ArrayList<File>();
 
@@ -73,6 +78,16 @@ public class StartMenu extends javax.swing.JFrame {
         cbxListLevels = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         btnPlay = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtHowToPlay = new javax.swing.JTextPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtLevelDesigner = new javax.swing.JTextPane();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtAbout = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Solitude - Ludum Dare");
@@ -88,6 +103,84 @@ public class StartMenu extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setBorder(null);
+
+        txtHowToPlay.setBorder(null);
+        txtHowToPlay.setEditable(false);
+        txtHowToPlay.setOpaque(false);
+        jScrollPane1.setViewportView(txtHowToPlay);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("How to Play", jPanel1);
+
+        jScrollPane2.setBorder(null);
+
+        txtLevelDesigner.setBorder(null);
+        txtLevelDesigner.setEditable(false);
+        txtLevelDesigner.setOpaque(false);
+        jScrollPane2.setViewportView(txtLevelDesigner);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Level Designer", jPanel2);
+
+        jScrollPane3.setBorder(null);
+
+        txtAbout.setBorder(null);
+        txtAbout.setEditable(false);
+        txtAbout.setOpaque(false);
+        jScrollPane3.setViewportView(txtAbout);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("About", jPanel3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,10 +188,11 @@ public class StartMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbxListLevels, 0, 97, Short.MAX_VALUE))
+                        .addComponent(cbxListLevels, 0, 492, Short.MAX_VALUE))
                     .addComponent(btnPlay, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -111,7 +205,9 @@ public class StartMenu extends javax.swing.JFrame {
                     .addComponent(cbxListLevels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPlay)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -158,6 +254,39 @@ public class StartMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnPlay;
     private javax.swing.JComboBox cbxListLevels;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextPane txtAbout;
+    private javax.swing.JTextPane txtHowToPlay;
+    private javax.swing.JTextPane txtLevelDesigner;
     // End of variables declaration//GEN-END:variables
+
+    private void popupateTextFields()
+    {
+        try
+        {
+            Scanner scan = new Scanner(new File("README"));
+
+            String data = "";
+
+            while(scan.hasNext())
+                data += scan.nextLine() + "\n";
+
+            String[] split = data.split("-------------------------------------------");
+
+            txtHowToPlay.setText(split[0]);
+            txtLevelDesigner.setText(split[1]);
+            txtAbout.setText(split[2]);
+
+        }
+        catch (FileNotFoundException ex) {
+            Logger.getLogger(StartMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
