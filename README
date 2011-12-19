@@ -1,11 +1,55 @@
 
+Solitude - Ludum Dare #22
+
 HOW TO PLAY
 
+You are a small guy who needs to escape from this place he is in (Great story, huh?). Lasers are set around the map and there is a portal somewhere that allows you get out. The portal must be powered for you to leave.
+
+Using the WSAD keys you need to move around and discover where to go. When coming across a laser you need to either point it (use ARROW keys to direct laser) at the portal to activate it or direct it to another laser turret to power that and get to the portal that way. You will most likely need to direct lasers at multiple light turrets around the level to create a chain that can reach the portal.
+
+Select the level from the drop down list at the top and click Play - you will be launched into the astonishing world that is SOLITUDE.
 
 -------------------------------------------
 LEVEL DESIGNER
 
+One of the features of this project is the custom level designer. While it does not include a GUI for creating your own, you can easily add data to the “levels” directory and create your own!
 
+Create a new folder inside “levels” that is a number (yeah sorry - don’t know why I did that). Inside that folder you need 3 files:
+	# data.png
+	# bg.png
+	# level.txt
+
+data.png - this image is purely black and white. White pixels define the space where the player and lasers can move in, black pixels define boundaries and inaccessible space for both the player and the laser.
+
+bg.png - this image is the background display for the level. This needs to be the same size as data.png. It should show the boundaries and well as pretty background colours. For an example see the levels 0, 1, or 2. 
+
+level.txt - this text file is parsed when the game starts and allows you to define where all the laser turrets are (as well as exit portal and player starting position). Note that the levels 0, 1, and 2 do not have this as they are programmed into the game. You can, however, view an example test file in level 3.
+The format for level.txt is as follows:
+
+# this is a comment
+# coordinates start at 0,0 from the bottom left corner
+# all coordinates are pixel values
+# the first coordinate is ALWAYS the portal that is the exit
+740 300
+# the second is the PLAYERS STARTING POSITION
+75 75
+# the next coordinates are a list of all the light turrets in the map
+50 550
+380 500
+400 150 
+750 550
+# any turret with a boolean value of 'true' after it means it is a source turret and is ALWAYS lit
+50 50 true
+# any turret with a string of 'pulse' next to it means it is a pulsing turret (one second on - one second off)
+700 50 pulse
+# yes - you can have a source light that pulses 
+300 50 true pulse
+# and the last bit can be reversed
+400 50 pulse true
+
+
+Once you have created all those files and put them in a numbered directory in the directory "levels/" it should appear when you start the game!
+Have fun creating ;)
 
 -------------------------------------------
 ABOUT
@@ -20,3 +64,5 @@ With this being my first Ludum Dare – I was thinking I’ll just use this as a lea
 
 Can obtain the source here:
 https://github.com/andrew-smith
+
+(Yes I know - my menu design is terrible)
