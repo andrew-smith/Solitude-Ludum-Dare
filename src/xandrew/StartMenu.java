@@ -283,6 +283,9 @@ public class StartMenu extends javax.swing.JFrame {
             txtLevelDesigner.setText(split[1]);
             txtAbout.setText(split[2]);
 
+            txtAbout.setCaretPosition(0);
+            txtLevelDesigner.setCaretPosition(0);
+            txtHowToPlay.setCaretPosition(0);
         }
         catch (FileNotFoundException ex) {
             Logger.getLogger(StartMenu.class.getName()).log(Level.SEVERE, null, ex);
