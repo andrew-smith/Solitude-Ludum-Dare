@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>xandrew Ludum Dare #22 - Solitude by andrew-smith</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>xandrew Ludum Dare #22 - Solitude</h1>
+        <h2>Ludum Dare #22 Entry for xandrew. 273rd out of 891 submissions! </h2>
+
+        <section id="downloads">
+          <a href="https://github.com/andrew-smith/Solitude-Ludum-Dare/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/andrew-smith/Solitude-Ludum-Dare/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/andrew-smith/Solitude-Ludum-Dare" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h3>ABOUT</h3>
+
+<p>Created for the Ludum Dare Compo #22
+<a href="http://www.ludumdare.com/compo/">http://www.ludumdare.com/compo/</a></p>
+
+<p>By xandrew
+<a href="http://www.ludumdare.com/compo/author/xandrew/">http://www.ludumdare.com/compo/author/xandrew/</a></p>
+
+<p>With this being my first Ludum Dare – I was thinking I’ll just use this as a learning experience to discover what I need to do BEFORE the next one. And it has been a VERY big learning experience. Also might enter the Jam next time and get a few people in and make a party of it. Because my lack of creativity and ideas started to show about halfway though.</p>
+
+<p>(Yes I know - my menu design is terrible)</p>
+
+<h3>HOW TO PLAY</h3>
+
+<p>You are a small guy who needs to escape from this place he is in (Great story, huh?). Lasers are set around the map and there is a portal somewhere that allows you get out. The portal must be powered for you to leave.</p>
+
+<p>Using the WSAD keys you need to move around and discover where to go. When coming across a laser you need to either point it (use ARROW keys to direct laser) at the portal to activate it or direct it to another laser turret to power that and get to the portal that way. You will most likely need to direct lasers at multiple light turrets around the level to create a chain that can reach the portal.</p>
+
+<p>Select the level from the drop down list at the top and click Play - you will be launched into the astonishing world that is SOLITUDE.</p>
+
+<h3>LEVEL DESIGNER</h3>
+
+<p>One of the features of this project is the custom level designer. While it does not include a GUI for creating your own, you can easily add data to the “levels” directory and create your own!</p>
+
+<p>Create a new folder inside “levels” that is a number (yeah sorry - don’t know why I did that). Inside that folder you need 3 files:
+    # data.png
+    # bg.png
+    # level.txt</p>
+
+<p>data.png - this image is purely black and white. White pixels define the space where the player and lasers can move in, black pixels define boundaries and inaccessible space for both the player and the laser.</p>
+
+<p>bg.png - this image is the background display for the level. This needs to be the same size as data.png. It should show the boundaries and well as pretty background colours. For an example see the levels 0, 1, or 2. </p>
+
+<p>level.txt - this text file is parsed when the game starts and allows you to define where all the laser turrets are (as well as exit portal and player starting position). Note that the levels 0, 1, and 2 do not have this as they are programmed into the game. You can, however, view an example test file in level 3.
+The format for level.txt is as follows:</p>
+
+<pre><code># this is a comment
+# coordinates start at 0,0 from the bottom left corner
+# all coordinates are pixel values
+# the first coordinate is ALWAYS the portal that is the exit
+740 300
+# the second is the PLAYERS STARTING POSITION
+75 75
+# the next coordinates are a list of all the light turrets in the map
+50 550
+380 500
+400 150 
+750 550
+# any turret with a boolean value of 'true' after it means it is a source turret and is ALWAYS lit
+50 50 true
+# any turret with a string of 'pulse' next to it means it is a pulsing turret (one second on - one second off)
+700 50 pulse
+# yes - you can have a source light that pulses 
+300 50 true pulse
+# and the last bit can be reversed
+400 50 pulse true
+</code></pre>
+
+<p>Once you have created all those files and put them in a numbered directory in the directory "levels/" it should appear when you start the game!
+Have fun creating ;)</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
